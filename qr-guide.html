@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>柳屋BAR ― メニューQRコード</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+@page{size:A4 portrait;margin:0}
+html,body{
+  margin:0;padding:0;
+  width:210mm;height:297mm;
+  background:#fff;
+  font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN',sans-serif;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+
+.page{
+  width:210mm;height:297mm;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  position:relative;
+  background:#fff;
+  padding:20mm 20mm;
+}
+
+/* Border */
+.page::before{
+  content:'';position:absolute;inset:12mm;
+  border:1px solid #d4c5a9;border-radius:2px;pointer-events:none;
+}
+.page::after{
+  content:'';position:absolute;inset:14mm;
+  border:1px solid rgba(212,197,169,.3);border-radius:2px;pointer-events:none;
+}
+
+/* Corners */
+.corner{position:absolute;width:18mm;height:18mm;pointer-events:none}
+.corner svg{width:100%;height:100%}
+.corner-tl{top:10mm;left:10mm}
+.corner-tr{top:10mm;right:10mm;transform:scaleX(-1)}
+.corner-bl{bottom:10mm;left:10mm;transform:scaleY(-1)}
+.corner-br{bottom:10mm;right:10mm;transform:scale(-1,-1)}
+
+/* Logo */
+.logo{
+  width:42mm;height:42mm;
+  object-fit:contain;
+  margin-bottom:10mm;
+  opacity:.9;
+}
+
+/* Divider */
+.divider{
+  width:30mm;height:1px;
+  background:linear-gradient(90deg,transparent,#d4c5a9,transparent);
+  margin:0 auto 10mm;
+}
+.divider-sm{
+  width:16mm;height:1px;
+  background:linear-gradient(90deg,transparent,#d4c5a9,transparent);
+  margin:0 auto 10mm;
+}
+
+/* Scan label */
+.scan-icon{
+  display:flex;align-items:center;justify-content:center;
+  gap:3mm;margin-bottom:5mm;
+}
+.scan-icon svg{width:6mm;height:6mm}
+.scan-label{
+  font-family:'Cormorant Garamond',serif;
+  font-size:11pt;font-weight:400;
+  letter-spacing:.2em;color:#b0a895;
+}
+
+/* QR */
+.qr-box{
+  width:72mm;height:72mm;
+  padding:4mm;
+  border:1px solid #d4c5a9;
+  border-radius:3mm;background:#fff;
+  margin:0 auto 10mm;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 16px rgba(0,0,0,.05);
+}
+.qr-box img{width:100%;height:100%;object-fit:contain}
+
+/* Message */
+.message-main{
+  font-family:'Noto Serif JP',serif;
+  font-size:15pt;font-weight:400;
+  letter-spacing:.08em;color:#2a2520;
+  line-height:2;margin-bottom:3mm;
+}
+.message-sub{
+  font-size:9.5pt;font-weight:300;
+  letter-spacing:.06em;color:#8a7e6b;
+  line-height:2;margin-bottom:6mm;
+}
+.message-rec{
+  display:inline-block;
+  font-size:8.5pt;font-weight:400;
+  letter-spacing:.1em;color:#b0a895;
+  border:1px solid #d4c5a9;
+  border-radius:20px;padding:2mm 6mm;
+  margin-bottom:10mm;
+}
+
+/* How to */
+.howto{
+  display:flex;align-items:flex-start;justify-content:center;
+  gap:8mm;margin-bottom:12mm;
+}
+.howto-step{
+  display:flex;flex-direction:column;align-items:center;
+  width:34mm;
+}
+.howto-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:24pt;font-weight:300;
+  color:#d4c5a9;line-height:1;margin-bottom:3mm;
+}
+.howto-icon{width:13mm;height:13mm;margin-bottom:3mm}
+.howto-icon svg{width:100%;height:100%}
+.howto-text{
+  font-size:8.5pt;font-weight:300;
+  color:#6b6155;letter-spacing:.04em;
+  line-height:1.8;text-align:center;
+}
+.howto-arrow{
+  font-size:18pt;color:#d4c5a9;
+  margin-top:10mm;font-weight:300;
+}
+
+/* Footer */
+.footer-line{
+  width:50mm;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(212,197,169,.4),transparent);
+  margin:0 auto 5mm;
+}
+.footer-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:9pt;font-weight:400;
+  letter-spacing:.25em;color:#b0a895;
+}
+.footer-note{
+  font-size:7pt;font-weight:300;
+  color:#aaa;margin-top:2mm;letter-spacing:.05em;
+}
+
+/* Print */
+@media print{
+  html,body{width:210mm;height:297mm}
+  .page{break-after:avoid}
+}
+
+/* Screen preview */
+@media screen{
+  body{
+    display:flex;justify-content:center;align-items:flex-start;
+    min-height:100vh;background:#e8e4de;padding:20px 0;
+    width:auto;height:auto;
+  }
+  .page{
+    box-shadow:0 4px 30px rgba(0,0,0,.12);
+    border-radius:4px;flex-shrink:0;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Corners -->
+  <div class="corner corner-tl"><svg viewBox="0 0 60 60" fill="none"><path d="M2 58 V2 H58" stroke="#d4c5a9" stroke-width=".7"/><path d="M8 52 V8 H52" stroke="#d4c5a9" stroke-width=".3" opacity=".4"/></svg></div>
+  <div class="corner corner-tr"><svg viewBox="0 0 60 60" fill="none"><path d="M2 58 V2 H58" stroke="#d4c5a9" stroke-width=".7"/><path d="M8 52 V8 H52" stroke="#d4c5a9" stroke-width=".3" opacity=".4"/></svg></div>
+  <div class="corner corner-bl"><svg viewBox="0 0 60 60" fill="none"><path d="M2 58 V2 H58" stroke="#d4c5a9" stroke-width=".7"/><path d="M8 52 V8 H52" stroke="#d4c5a9" stroke-width=".3" opacity=".4"/></svg></div>
+  <div class="corner corner-br"><svg viewBox="0 0 60 60" fill="none"><path d="M2 58 V2 H58" stroke="#d4c5a9" stroke-width=".7"/><path d="M8 52 V8 H52" stroke="#d4c5a9" stroke-width=".3" opacity=".4"/></svg></div>
+
+  <!-- Logo (large) -->
+  <img class="logo" src="yanagiya-symbol.png" alt="柳屋BAR">
+
+  <div class="divider"></div>
+
+  <!-- Scan label -->
+  <div class="scan-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#b0a895" stroke-width="1.5"><path d="M7 3H5a2 2 0 0 0-2 2v2m0 10v2a2 2 0 0 0 2 2h2m10-18h2a2 2 0 0 1 2 2v2m0 10v2a2 2 0 0 1-2 2h-2"/><line x1="3" y1="12" x2="21" y2="12" stroke-dasharray="2 2"/></svg>
+    <span class="scan-label">SCAN QR CODE</span>
+  </div>
+
+  <!-- QR Code (large) -->
+  <div class="qr-box">
+    <img src="yanagiya-bar.svg" alt="QR Code">
+  </div>
+
+  <!-- Message -->
+  <div class="message-main">メニューはスマートフォンから<br>ご覧いただけます</div>
+  <div class="message-sub">
+    各ウイスキーの詳しい説明やテイスティングノートも<br>
+    スマホで快適にお読みいただけます
+  </div>
+  <div class="message-rec">おすすめ</div>
+
+  <div class="divider-sm"></div>
+
+  <!-- How to (large) -->
+  <div class="howto">
+    <div class="howto-step">
+      <div class="howto-num">1</div>
+      <div class="howto-icon"><svg viewBox="0 0 40 40" fill="none" stroke="#8a7e6b" stroke-width="1.2"><rect x="10" y="4" width="20" height="32" rx="3"/><line x1="17" y1="32" x2="23" y2="32"/></svg></div>
+      <div class="howto-text">スマートフォンの<br>カメラを起動</div>
+    </div>
+    <div class="howto-arrow">→</div>
+    <div class="howto-step">
+      <div class="howto-num">2</div>
+      <div class="howto-icon"><svg viewBox="0 0 40 40" fill="none" stroke="#8a7e6b" stroke-width="1.2"><rect x="6" y="6" width="28" height="28" rx="2"/><rect x="12" y="12" width="6" height="6"/><rect x="22" y="12" width="6" height="6"/><rect x="12" y="22" width="6" height="6"/><circle cx="25" cy="25" r="2.5"/></svg></div>
+      <div class="howto-text">QRコードを<br>読み取り</div>
+    </div>
+    <div class="howto-arrow">→</div>
+    <div class="howto-step">
+      <div class="howto-num">3</div>
+      <div class="howto-icon"><svg viewBox="0 0 40 40" fill="none" stroke="#8a7e6b" stroke-width="1.2"><rect x="8" y="4" width="24" height="32" rx="3"/><line x1="14" y1="14" x2="26" y2="14"/><line x1="14" y1="19" x2="24" y2="19"/><line x1="14" y1="24" x2="22" y2="24"/></svg></div>
+      <div class="howto-text">メニューを<br>お楽しみください</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer-line"></div>
+  <div class="footer-name">YANAGIYA BAR</div>
+  <div class="footer-note">All prices include tax. ／ 表示価格はすべて税込です</div>
+
+</div>
+
+</body>
+</html>
