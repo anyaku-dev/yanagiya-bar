@@ -26,7 +26,7 @@ html,body{
   text-align:center;
   position:relative;
   background:#fff;
-  padding:20mm 20mm;
+  padding:18mm 20mm 14mm;
 }
 
 /* Border */
@@ -49,9 +49,9 @@ html,body{
 
 /* Logo */
 .logo{
-  width:42mm;height:42mm;
+  width:38mm;height:38mm;
   object-fit:contain;
-  margin-bottom:10mm;
+  margin-bottom:6mm;
   opacity:.9;
 }
 
@@ -59,18 +59,18 @@ html,body{
 .divider{
   width:30mm;height:1px;
   background:linear-gradient(90deg,transparent,#d4c5a9,transparent);
-  margin:0 auto 10mm;
+  margin:0 auto 6mm;
 }
 .divider-sm{
   width:16mm;height:1px;
   background:linear-gradient(90deg,transparent,#d4c5a9,transparent);
-  margin:0 auto 10mm;
+  margin:0 auto 6mm;
 }
 
 /* Scan label */
 .scan-icon{
   display:flex;align-items:center;justify-content:center;
-  gap:3mm;margin-bottom:5mm;
+  gap:3mm;margin-bottom:4mm;
 }
 .scan-icon svg{width:6mm;height:6mm}
 .scan-label{
@@ -81,11 +81,11 @@ html,body{
 
 /* QR */
 .qr-box{
-  width:72mm;height:72mm;
+  width:68mm;height:68mm;
   padding:4mm;
   border:1px solid #d4c5a9;
   border-radius:3mm;background:#fff;
-  margin:0 auto 10mm;
+  margin:0 auto 6mm;
   display:flex;align-items:center;justify-content:center;
   box-shadow:0 2px 16px rgba(0,0,0,.05);
 }
@@ -96,26 +96,26 @@ html,body{
   font-family:'Noto Serif JP',serif;
   font-size:15pt;font-weight:400;
   letter-spacing:.08em;color:#2a2520;
-  line-height:2;margin-bottom:3mm;
+  line-height:1.9;margin-bottom:2mm;
 }
 .message-sub{
   font-size:9.5pt;font-weight:300;
   letter-spacing:.06em;color:#8a7e6b;
-  line-height:2;margin-bottom:6mm;
+  line-height:1.9;margin-bottom:4mm;
 }
 .message-rec{
   display:inline-block;
   font-size:8.5pt;font-weight:400;
   letter-spacing:.1em;color:#b0a895;
   border:1px solid #d4c5a9;
-  border-radius:20px;padding:2mm 6mm;
-  margin-bottom:10mm;
+  border-radius:20px;padding:1.5mm 6mm;
+  margin-bottom:6mm;
 }
 
 /* How to */
 .howto{
   display:flex;align-items:flex-start;justify-content:center;
-  gap:8mm;margin-bottom:12mm;
+  gap:6mm;margin-bottom:8mm;
 }
 .howto-step{
   display:flex;flex-direction:column;align-items:center;
@@ -124,25 +124,25 @@ html,body{
 .howto-num{
   font-family:'Cormorant Garamond',serif;
   font-size:24pt;font-weight:300;
-  color:#d4c5a9;line-height:1;margin-bottom:3mm;
+  color:#d4c5a9;line-height:1;margin-bottom:2mm;
 }
-.howto-icon{width:13mm;height:13mm;margin-bottom:3mm}
+.howto-icon{width:12mm;height:12mm;margin-bottom:2mm}
 .howto-icon svg{width:100%;height:100%}
 .howto-text{
   font-size:8.5pt;font-weight:300;
   color:#6b6155;letter-spacing:.04em;
-  line-height:1.8;text-align:center;
+  line-height:1.7;text-align:center;
 }
 .howto-arrow{
   font-size:18pt;color:#d4c5a9;
-  margin-top:10mm;font-weight:300;
+  margin-top:9mm;font-weight:300;
 }
 
 /* Footer */
 .footer-line{
   width:50mm;height:1px;
   background:linear-gradient(90deg,transparent,rgba(212,197,169,.4),transparent);
-  margin:0 auto 5mm;
+  margin:0 auto 4mm;
 }
 .footer-name{
   font-family:'Cormorant Garamond',serif;
@@ -154,13 +154,11 @@ html,body{
   color:#aaa;margin-top:2mm;letter-spacing:.05em;
 }
 
-/* Print */
 @media print{
   html,body{width:210mm;height:297mm}
   .page{break-after:avoid}
 }
 
-/* Screen preview */
 @media screen{
   body{
     display:flex;justify-content:center;align-items:flex-start;
@@ -184,7 +182,7 @@ html,body{
   <div class="corner corner-bl"><svg viewBox="0 0 60 60" fill="none"><path d="M2 58 V2 H58" stroke="#d4c5a9" stroke-width=".7"/><path d="M8 52 V8 H52" stroke="#d4c5a9" stroke-width=".3" opacity=".4"/></svg></div>
   <div class="corner corner-br"><svg viewBox="0 0 60 60" fill="none"><path d="M2 58 V2 H58" stroke="#d4c5a9" stroke-width=".7"/><path d="M8 52 V8 H52" stroke="#d4c5a9" stroke-width=".3" opacity=".4"/></svg></div>
 
-  <!-- Logo (large) -->
+  <!-- Logo -->
   <img class="logo" src="yanagiya-symbol.png" alt="柳屋BAR">
 
   <div class="divider"></div>
@@ -195,22 +193,22 @@ html,body{
     <span class="scan-label">SCAN QR CODE</span>
   </div>
 
-  <!-- QR Code (large) -->
+  <!-- QR Code -->
   <div class="qr-box">
     <img src="yanagiya-bar.svg" alt="QR Code">
   </div>
 
   <!-- Message -->
-  <div class="message-main">メニューはスマートフォンから<br>ご覧いただけます</div>
+  <div class="message-main">メニューはスマートフォンからも<br>ご覧いただけます！</div>
   <div class="message-sub">
-    各ウイスキーの詳しい説明やテイスティングノートも<br>
-    スマホで快適にお読みいただけます
+    各ウイスキーの詳しい説明や、テイスティングノートも<br>
+    スマホでじっくり快適にお読みいただけます〜👌
   </div>
   <div class="message-rec">おすすめ</div>
 
   <div class="divider-sm"></div>
 
-  <!-- How to (large) -->
+  <!-- How to -->
   <div class="howto">
     <div class="howto-step">
       <div class="howto-num">1</div>
