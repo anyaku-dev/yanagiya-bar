@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>柳屋Bar ウイスキー説明カード</title>
+  <link rel="stylesheet" href="index.css">
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .card-grid-sheet {
+      width: 210mm;
+      height: 297mm;
+      margin: 0;
+      padding: 0 4mm;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: repeat(4, calc((297mm - 5mm) / 4));
+      align-content: end;
+      background: #fff;
+      page-break-after: always;
+      position: relative;
+      box-sizing: border-box;
+    }
+    .card-grid-sheet:last-child {
+      page-break-after: auto;
+    }
+
+    /* Vertical cut line */
+    .card-grid-sheet::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 0;
+      height: 100%;
+      border-left: 1.2px dashed #ccc;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    /* Horizontal cut lines */
+    .cut-line-h {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 0;
+      border-top: 1.2px dashed #ccc;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .cut-h-1 { top: calc(5mm + (297mm - 5mm) / 4); }
+    .cut-h-2 { top: calc(5mm + (297mm - 5mm) / 4 * 2); }
+    .cut-h-3 { top: calc(5mm + (297mm - 5mm) / 4 * 3); }
+
+    /* Scissors marks */
+    .scissors-mark {
+      position: absolute;
+      font-size: 7pt;
+      color: #ccc;
+      z-index: 20;
+      pointer-events: none;
+      line-height: 1;
+    }
+    .scissors-left-1 { top: calc(5mm + (297mm - 5mm) / 4); left: 0; transform: translateY(-50%); }
+    .scissors-left-2 { top: calc(5mm + (297mm - 5mm) / 4 * 2); left: 0; transform: translateY(-50%); }
+    .scissors-left-3 { top: calc(5mm + (297mm - 5mm) / 4 * 3); left: 0; transform: translateY(-50%); }
+
+    /* Each card */
+    .wcard {
+      width: 101mm;
+      padding: 4.5mm 5mm 3mm 5mm;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      box-sizing: border-box;
+    }
+
+    /* Header row */
+    .wcard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.5mm;
+      gap: 2mm;
+    }
+    .wcard-name {
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #111;
+      line-height: 1.3;
+      flex-shrink: 1;
+    }
+    .wcard-price {
+      font-family: "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Yu Mincho", "YuMincho", serif;
+      font-size: 9.5pt;
+      font-weight: 600;
+      color: #888;
+      white-space: nowrap;
+      flex-shrink: 0;
+      letter-spacing: 0.02em;
+    }
+
+    /* Meta: type + region */
+    .wcard-meta {
+      font-size: 7pt;
+      color: #888;
+      font-weight: 300;
+      margin-bottom: 1.8mm;
+      letter-spacing: 0.03em;
+      line-height: 1.3;
+      border-bottom: 0.5px solid #ddd;
+      padding-bottom: 1.5mm;
+    }
+
+    /* Tasting notes label */
+    .wcard-tasting-label {
+      font-size: 6pt;
+      font-weight: 700;
+      color: #aaa;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1mm;
+    }
+
+    /* Tasting grid */
+    .wcard-tasting-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5mm 2.5mm;
+      font-size: 7pt;
+      line-height: 1.5;
+      margin-bottom: 1.5mm;
+    }
+    .wcard-tasting-key {
+      font-weight: 600;
+      color: #555;
+      white-space: nowrap;
+    }
+    .wcard-tasting-val {
+      color: #444;
+      font-weight: 300;
+    }
+
+    /* Divider */
+    .wcard-desc-divider {
+      width: 100%;
+      border: none;
+      border-top: 0.5px solid #ddd;
+      margin: 1.2mm 0;
+    }
+
+    /* Description */
+    .wcard-desc {
+      font-size: 6.5pt;
+      color: #555;
+      line-height: 1.55;
+      font-weight: 300;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    @media screen {
+      .card-grid-sheet {
+        margin: 10mm auto;
+        box-shadow: 0 1px 8px rgba(0,0,0,0.12);
+      }
+    }
+    @media print {
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 210mm;
+      }
+      .card-grid-sheet {
+        margin: 0;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     PAGE 1: Cards 1-8
+     ============================================================ -->
+<div class="card-grid-sheet">
+  <div class="cut-line-h cut-h-1"></div>
+  <div class="cut-line-h cut-h-2"></div>
+  <div class="cut-line-h cut-h-3"></div>
+  <span class="scissors-mark scissors-left-1">✂</span>
+  <span class="scissors-mark scissors-left-2">✂</span>
+  <span class="scissors-mark scissors-left-3">✂</span>
+
+  <!-- 1 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">シーバスリーガル ミズナラ 12年</span>
+      <span class="wcard-price">¥700（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：ブレンデッド ／ 産地：スコットランド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">オレンジと西洋ナシの甘いフルーティさ、クリーミーなタフィー、微かなナッツ。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">熟した西洋ナシと蜂蜜の甘さ、オレンジ風味の砂糖菓子とリコリスの風味。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">バランスよく、なめらかで長い余韻、ほのかなミズナラの香り。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">200年以上の歴史を持つシーバスブラザーズによるプレミアム・ブレンデッドスコッチ。日本のウイスキー愛飲家のために特別に造られた日本限定品であり、日本原産のミズナラ樽で熟成。伝統技術に日本ならではの個性を融合させた唯一無二の逸品。</div>
+  </div>
+
+  <!-- 2 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">グレンフィディック 12年</span>
+      <span class="wcard-price">¥700（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：スペイサイド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">洋梨のニュアンスを伴う、はっきりと新鮮でフルーティーな香り。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">甘くフルーティー、バタースコッチ、クリーム、モルト、微かなオーク。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">長く、なめらかで穏やかな余韻。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1887年創業以来、同じ水源の湧き水を使用し、12年以上熟成させた原酒のみで造られる「シングルモルトのパイオニア」。アメリカンオーク樽とヨーロピアンシェリー樽で熟成され、世界で最も受賞歴のある逸品。</div>
+  </div>
+
+  <!-- 3 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">タリスカー 10年</span>
+      <span class="wcard-price">¥700（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：スカイ島（アイランズ）</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">海塩、生牡蠣、柑橘の甘み、力強いピートスモーク。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">煙るようなスモーキー、黒胡椒のスパイス、甘いモルト。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">胡椒のようなスパイシーなロングフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1830年創業、スカイ島唯一の蒸溜所。MADE BY THE SEAを体現する、海のミネラルと力強いピートが融合した唯一無二のモルト。島の荒々しい海岸線を一杯に閉じ込めた雄渾な傑作。</div>
+  </div>
+
+  <!-- 4 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">アランモルト 10年</span>
+      <span class="wcard-price">¥800（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：アラン島（アイランズ）</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">蜂蜜、砂糖漬けシトラス、リコリス、バタースコッチ、バニラ。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">フルーティでクリーミー、自然な甘み、バニラ、ほのかなシナモン。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">上品で長いフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1995年創業、アラン島に位置する比較的新しい蒸溜所のフラッグシップ。ノンピートの大麦麦芽を使用し、バーボン樽とシェリー樽の両方で熟成。自然な甘みとバニラが魅力的な、フルーティでバランスの取れた上品な島のモルト。</div>
+  </div>
+
+  <!-- 5 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">グレンドロナック 12年</span>
+      <span class="wcard-price">¥800（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：ハイランド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">ドライフルーツ、チョコレート、シェリー、ナッツ。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">リッチでクリーミー、シェリーの甘み、ウォームなオーク、口中に広がる果実。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">長くシルキーなフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1826年創業、ハイランドのシェリー樽熟成の雄。最高級スペイン産オロロソ・シェリー樽とペドロ・ヒメネス樽を使用し12年以上熟成。石炭直火蒸溜の伝統を守り続けた古豪が贈る、濃厚でリッチなシェリー風味の王道ハイランドモルト。</div>
+  </div>
+
+  <!-- 6 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">ラガヴーリン 8年</span>
+      <span class="wcard-price">¥800（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：アイラ島</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">ミルクチョコレート、レモン、チェリー、バニラ、スモーキー。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">スモーキーでフレッシュ、甘く若々しいモルト、オーク。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">スパイシーで爽快なフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1816年創業のラガヴーリン蒸溜所が、創業200周年記念として2016年にリリースし定番化。20世紀初頭のウイスキー権威アルフレッド・バーナードが絶賛した若い熟成スタイルを現代に蘇らせた、瑞々しくも正統派のアイラピートが楽しめる革新的な一本。</div>
+  </div>
+
+  <!-- 7 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">バランタイン 17年</span>
+      <span class="wcard-price">¥900（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：ブレンデッド ／ 産地：スコットランド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">バニラ、オーク、完熟果実、ほのかなスモーキー。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">クリーミーで蜂蜜の甘美さ、ミルクチョコレート、オーク、ピート。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">長く気品あるフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1937年に誕生した、バランタインの誇るフラッグシップ。17年以上熟成した40種以上のモルト・グレーン原酒を精緻にブレンド。スコッチ最高のブレンデッドとして「ザ・スコッチ」の異名を持つ不朽の名作。</div>
+  </div>
+
+  <!-- 8 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">ダルウィニー 15年</span>
+      <span class="wcard-price">¥900（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：ハイランド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">ヘザー、ハチミツ、バニラ、柑橘系の爽やかさ。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">スムースでソフト、ヘザーハニーの甘み、バニラ、麦芽パンの風味。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">長く尾を引く、ほのかなスパイスと甘みのフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1897年創業、スコットランドで最も高地かつ寒冷地に位置する蒸溜所。標高327mの厳しい自然環境がゆっくりとした熟成をもたらす。ディアジオ クラシックモルト代表作であり、ハイランドの清澄な空気を一杯に封じ込めた逸品。</div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 2: Cards 9-16
+     ============================================================ -->
+<div class="card-grid-sheet">
+  <div class="cut-line-h cut-h-1"></div>
+  <div class="cut-line-h cut-h-2"></div>
+  <div class="cut-line-h cut-h-3"></div>
+  <span class="scissors-mark scissors-left-1">✂</span>
+  <span class="scissors-mark scissors-left-2">✂</span>
+  <span class="scissors-mark scissors-left-3">✂</span>
+
+  <!-- 9 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">リンドーズ シングルモルト</span>
+      <span class="wcard-price">¥900（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：ローランド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">フルーティなリンゴ、バニラクリーム、花の蜜、ほのかなモルト。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">甘い果樹園のフルーツ、バニラ、スパイシーでスモーキー。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">温かみのあるスパイシーなフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">スコッチウイスキーに関する最古の文献（1494年）にその名が刻まれるリンドーズ修道院。その聖地に2017年再建された蒸溜所の記念碑的ファーストリリース。バーボン樽・シェリー樽・STR樽の三種熟成で、スコッチ発祥の地の歴史を一杯に凝縮。</div>
+  </div>
+
+  <!-- 10 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">モートラック 12年</span>
+      <span class="wcard-price">¥1,000（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：スペイサイド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">芳醇なサンダルウッドとオーク、軽いスパイス、焦がしたトフィー、赤いベリー。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">甘くスパイシー、ブラウンシュガー、ダークチョコレート、チェリージャム。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">なめらかでドライ、苦みのあるプラムが優雅な余韻。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">「ダフタウンの野獣」と称されるモートラック蒸留所。スペイサイドで最初に設立された歴史ある蒸留所で、アレクサンダー・コーウィー博士が確立した「2.81回蒸留」という複雑な工程が、力強くも芳醇な唯一無二の重厚な味わいを生み出す。</div>
+  </div>
+
+  <!-- 11 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">ブナハーブン 12年</span>
+      <span class="wcard-price">¥1,100（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：アイラ島</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">ブラックカラントジャム、バニラ、クローブ、微かな潮の香り。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">豊かなシェリーとローストナッツ、甘いモルト、キャラメル、微かな潮。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">長く続く余韻、豊かで芳醇、海塩の繊細なスプレー。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1881年、アイラ島の最北端で創業。アイラモルトとしては珍しくピートをほとんど使用しない「アイラの異端児」。冷却ろ過や着色を排し、自然のままの姿で瓶詰めされる12年熟成は、シェリー樽とバーボン樽の原酒が織りなすブナハーブンの真髄。</div>
+  </div>
+
+  <!-- 12 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">ロイヤルブックラ 12年</span>
+      <span class="wcard-price">¥1,100（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：ハイランド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">ライチ、ブラックチェリー、スパイス、チョコレート。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">洋梨、りんご、フルーティでバランスよく、シェリー由来のリッチな甘み。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">シェリー樽由来の芳醇な余韻、ナッツ感。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1812年創業、1833年にウィリアム4世から英国初の王室御用達認定を受けた由緒ある蒸溜所。バーボン樽熟成後にオロロソシェリー樽でフィニッシュした、ノンピートのピュアでフルーティな風味に王室の気品を纏う、ハイランドの貴族的な一本。</div>
+  </div>
+
+  <!-- 13 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">オーバン 14年</span>
+      <span class="wcard-price">¥1,200（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：ハイランド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">フルーティな甘さ（リンゴ）、蜂蜜、バニラ、ほのかな海のミネラル。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">フルーティで甘み、潮のミネラル感、ほのかなスパイス。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">ドライでクリーンなフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1794年創業、スコッチ最古の蒸溜所のひとつ。アイランズ地方への玄関口、港町オーバンに佇む。小型のランタン型ポットスチルと独自のワームタブ冷却式がハイランドとアイランズ双方の個性を融合させた稀有なシングルモルト。ディアジオ クラシックモルト選定。</div>
+  </div>
+
+  <!-- 14 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">ラガヴーリン 16年</span>
+      <span class="wcard-price">¥1,200（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：アイラ島</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">力強いピートスモーク、海のミネラル、ドライフルーツ、ラベンダー。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">重厚なスモーキー、甘く濃縮されたフルーツ、ダーク。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">長く複雑、スモークと甘みが絡み合う圧倒的フィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1816年創業、アイラ島の巨人と称されるラガヴーリン蒸溜所のアイコン。ホワイトホース社創業者ピーター・マッキーが修業した伝説の蒸溜所。16年以上の長期熟成が生み出す、深みとスモーキーさを持つシングルモルトの傑作として世界中から崇拝される。</div>
+  </div>
+
+  <!-- 15 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">グレンリベット 12年 イリシット スティル</span>
+      <span class="wcard-price">¥1,200（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：スペイサイド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">熟したパイナップル、バニラファッジ、ヘーゼルナッツ、ほのかなシトラス。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">フルーティでフローラル、バニラの甘み、オークの渋み、ほのかなペッパー。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">キャラメルのリッチなフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1824年政府公認第1号の歴史ある蒸溜所。「イリシットスティル（密造酒器）」は、密造時代のオリジナルレシピを現代に再現した特別版。ノンチルフィルタード48%で、グレンリベット本来のフルーティで華やかなスタイルを最大限に引き出した限定ボトル。</div>
+  </div>
+
+  <!-- 16 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">アードベッグ コリーヴレッカン</span>
+      <span class="wcard-price">¥1,300（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：アイラ島</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">ヨード、ピートスモーク、バニラ、ダークチョコレート、ブラックカラント。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">圧倒的なスモーキー、スパイシー、フレンチオーク由来の力強いタンニン。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">エスプレッソとチョコレートのロングフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1815年創業のアイラ島アードベッグ蒸溜所が放つ強烈な個性の一本。コリーヴレッカンとはアイラ島沖の世界第2位の渦潮の名。フレンチオーク新樽で熟成した原酒を使用し、2010年World's Best Single Malt受賞歴を誇る傑作。</div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 3: Cards 17-24
+     ============================================================ -->
+<div class="card-grid-sheet">
+  <div class="cut-line-h cut-h-1"></div>
+  <div class="cut-line-h cut-h-2"></div>
+  <div class="cut-line-h cut-h-3"></div>
+  <span class="scissors-mark scissors-left-1">✂</span>
+  <span class="scissors-mark scissors-left-2">✂</span>
+  <span class="scissors-mark scissors-left-3">✂</span>
+
+  <!-- 17 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">シーバスリーガル 18年 ミズナラ</span>
+      <span class="wcard-price">¥1,400（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：ブレンデッド ／ 産地：スコットランド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">はちみつ、熟した赤リンゴ、バニラ、シナモン、花のような香り。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">甘い杏子ジャムとダークチョコレート、クローブとクリーミーなトフィー。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">長く続く、甘美でスパイス香のある余韻。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">マスターブレンダーが日本のミズナラ樽の風味に惚れ込み誕生した日本市場限定品。18年以上熟成されたモルトとグレーンウイスキーをブレンドし、希少なミズナラ樽でフィニッシュ。スコットランドと日本のクラフトマンシップが融合した逸品。</div>
+  </div>
+
+  <!-- 18 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">アベラワー アブーナ</span>
+      <span class="wcard-price">¥1,400（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：スペイサイド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">濃厚なシェリー、ドライフルーツ、チョコレート、スパイス。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">極めてリッチ、溢れるシェリーの甘み、ダークチョコ、フルーティなスパイス。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">燃えるように長くウォームなフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1826年創業、スペイサイドのアベラワー蒸溜所の最高峰。「アブーナ」はゲール語で父の意。スペイン産オロロソシェリー樽のみで熟成したカスクストレングス（無加水）で、創業当時のハンドメイド製法を忠実に再現した蒸溜所の魂の一本。</div>
+  </div>
+
+  <!-- 19 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">ボウモア 15年</span>
+      <span class="wcard-price">¥1,600（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：アイラ島</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">ダークチョコレート、レーズン、バニラ、燻香が織りなす芳醇なアロマ。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">砂糖漬けのオレンジ、ウッディネス、蜂蜜、潮風が奏でる複雑なハーモニー。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">力強く温かく、かすかなシェリーと燻香が長く続く。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">アイラモルトの女王たる風格を湛える15年熟成。12年間のバーボン樽熟成を経て、さらに3年間オロロソ・シェリー樽で後熟された原酒は、深く豊かな味わいと甘美な香りを纏い、潮の香りとスモーキーさが見事に調和した至高の逸品。</div>
+  </div>
+
+  <!-- 20 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">バランタイン 17年 トリビュートリリース</span>
+      <span class="wcard-price">¥1,600（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：ブレンデッド ／ 産地：スコットランド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">熟した果実、バニラ、甘い樽香。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">フルーティでクリーミー、スパイシーとのバランスが絶妙、リッチな甘み。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">なめらかで長いフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">バランタイン17年の伝統を讃えたスペシャルエディション。ヨーロピアンオーク樽とファーストフィルアメリカンオーク樽を使用した特別仕様。冷却濾過を行わないノンチルフィルタード製法、度数48%で原酒本来の豊かな風味を最大限に引き出した限定の至宝。</div>
+  </div>
+
+  <!-- 21 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">マッカラン 12年</span>
+      <span class="wcard-price">¥1,700（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：スペイサイド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">クリーミーなバタースコッチ、アップルキャンディ、バニラカスタード。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">バニラビーンズの甘み、爽やかなレモン・オレンジ、ほのかなスパイス。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">なめらかで甘いロングフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1824年創業、スペイサイドの名門マッカラン蒸溜所。厳選したアメリカンオーク製スペインシェリー樽とアメリカンオーク樽の2種で熟成。逆三角形の優美なボトルフォルムも高貴さを体現し、初心者から上級者まで魅了するエレガントな一本。</div>
+  </div>
+
+  <!-- 22 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">ハイランドパーク 18年</span>
+      <span class="wcard-price">¥1,800（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：オークニー諸島（アイランズ）</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">焼きチェリー、ダークチョコレート、オレンジの皮、蜂蜜、ヘザーピートのスモーク。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">オレンジの皮、ダークチョコレート、ヘザーピート由来のアロマティックなスモーク。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">甘くスパイシー、ナッツの香ばしさを伴う長い余韻。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1798年、ヴァイキングの末裔によりオークニー諸島に設立された最北の蒸溜所。220年以上の伝統と職人技が凝縮された18年熟成の逸品。シェリー樽由来の豊かな果実味と、ヘザーハニーの甘い香りを纏うピートスモークが織りなす、複雑で完璧なバランス。</div>
+  </div>
+
+  <!-- 23 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">ラフロイグ ロア</span>
+      <span class="wcard-price">¥1,800（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：アイラ島</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">海辺のミネラル、灰、ビターチョコレート、バニラ、ローストナッツ。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">スパイシーなチリ、濃厚なピート、バニラ、焙ったナッツ、クリーミーな果実味。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">甘くロングフィニッシュ、ドライ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1815年創業、アイラ島の王と称されるラフロイグ蒸溜所。現蒸溜所長ジョン・キャンベル氏が200年以上受け継がれた技術と情熱を伝承（LORE）すべく誕生。7〜21年熟成の5種の樽原酒をヴァッティングし、ダブルマチュアード製法を採用した蒸溜所の集大成。</div>
+  </div>
+
+  <!-- 24 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">デュワーズ ダブルダブル 21年</span>
+      <span class="wcard-price">¥2,000（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：ブレンデッド ／ 産地：スコットランド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">シナモン、完熟ぶどう、甘いシェリー、赤系果実、ハチミツ、バニラ。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">ベルベットのような口当たり、温かいスパイス、イチジク、プルーン、キャラメル。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">シルクのような滑らかな余韻、微かなリコリス、長く続く穏やかなスパイス。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1896年にアバフェルディ蒸留所が建設され、その歴史を刻んだデュワーズ。21年以上熟成されたモルトとグレーンウイスキーをブレンドし、「4段階熟成プロセス」を経て誕生。オロロソシェリー樽でフィニッシュされた、デュワーズ史上最高峰の逸品。</div>
+  </div>
+</div>
+
+</body>
+</html>
