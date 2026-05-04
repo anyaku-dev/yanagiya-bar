@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>柳屋Bar ウイスキー説明カード（第3刷）</title>
+  <link rel="stylesheet" href="index.css">
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .card-grid-sheet {
+      width: 210mm;
+      height: 297mm;
+      margin: 0;
+      padding: 0 4mm;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: repeat(4, calc((297mm - 5mm) / 4));
+      align-content: end;
+      background: #fff;
+      page-break-after: always;
+      position: relative;
+      box-sizing: border-box;
+    }
+    .card-grid-sheet:last-child {
+      page-break-after: auto;
+    }
+
+    /* Vertical cut line */
+    .card-grid-sheet::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 0;
+      height: 100%;
+      border-left: 1.2px dashed #ccc;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    /* Horizontal cut lines */
+    .cut-line-h {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 0;
+      border-top: 1.2px dashed #ccc;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .cut-h-1 { top: calc(5mm + (297mm - 5mm) / 4); }
+    .cut-h-2 { top: calc(5mm + (297mm - 5mm) / 4 * 2); }
+    .cut-h-3 { top: calc(5mm + (297mm - 5mm) / 4 * 3); }
+
+    /* Scissors marks */
+    .scissors-mark {
+      position: absolute;
+      font-size: 7pt;
+      color: #ccc;
+      z-index: 20;
+      pointer-events: none;
+      line-height: 1;
+    }
+    .scissors-left-1 { top: calc(5mm + (297mm - 5mm) / 4); left: 0; transform: translateY(-50%); }
+    .scissors-left-2 { top: calc(5mm + (297mm - 5mm) / 4 * 2); left: 0; transform: translateY(-50%); }
+    .scissors-left-3 { top: calc(5mm + (297mm - 5mm) / 4 * 3); left: 0; transform: translateY(-50%); }
+
+    /* Each card */
+    .wcard {
+      width: 101mm;
+      padding: 4.5mm 5mm 3mm 5mm;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      box-sizing: border-box;
+    }
+
+    /* Header row */
+    .wcard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.5mm;
+      gap: 2mm;
+    }
+    .wcard-name {
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #111;
+      line-height: 1.3;
+      flex-shrink: 1;
+    }
+    .wcard-price {
+      font-family: "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Yu Mincho", "YuMincho", serif;
+      font-size: 9.5pt;
+      font-weight: 600;
+      color: #888;
+      white-space: nowrap;
+      flex-shrink: 0;
+      letter-spacing: 0.02em;
+    }
+
+    /* Meta: type + region */
+    .wcard-meta {
+      font-size: 7pt;
+      color: #888;
+      font-weight: 300;
+      margin-bottom: 1.8mm;
+      letter-spacing: 0.03em;
+      line-height: 1.3;
+      border-bottom: 0.5px solid #ddd;
+      padding-bottom: 1.5mm;
+    }
+
+    /* Tasting notes label */
+    .wcard-tasting-label {
+      font-size: 6pt;
+      font-weight: 700;
+      color: #aaa;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1mm;
+    }
+
+    /* Tasting grid */
+    .wcard-tasting-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5mm 2.5mm;
+      font-size: 7pt;
+      line-height: 1.5;
+      margin-bottom: 1.5mm;
+    }
+    .wcard-tasting-key {
+      font-weight: 600;
+      color: #555;
+      white-space: nowrap;
+    }
+    .wcard-tasting-val {
+      color: #444;
+      font-weight: 300;
+    }
+
+    /* Divider */
+    .wcard-desc-divider {
+      width: 100%;
+      border: none;
+      border-top: 0.5px solid #ddd;
+      margin: 1.2mm 0;
+    }
+
+    /* Description */
+    .wcard-desc {
+      font-size: 6.5pt;
+      color: #555;
+      line-height: 1.55;
+      font-weight: 300;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    @media screen {
+      .card-grid-sheet {
+        margin: 10mm auto;
+        box-shadow: 0 1px 8px rgba(0,0,0,0.12);
+      }
+    }
+    @media print {
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 210mm;
+      }
+      .card-grid-sheet {
+        margin: 0;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     PAGE 1: Cards 1-8
+     新規5品（オーヘントッシャン12年 / アードベッグ10年 / アランクォーターカスク /
+              ロングロウ / スプリングバンク10年）
+     人気増刷3品（タリスカー10年 / バランタイン17年 / グレンリベット12年）
+     ============================================================ -->
+<div class="card-grid-sheet">
+  <div class="cut-line-h cut-h-1"></div>
+  <div class="cut-line-h cut-h-2"></div>
+  <div class="cut-line-h cut-h-3"></div>
+  <span class="scissors-mark scissors-left-1">✂</span>
+  <span class="scissors-mark scissors-left-2">✂</span>
+  <span class="scissors-mark scissors-left-3">✂</span>
+
+  <!-- 1：タリスカー10年（人気増刷） -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">タリスカー 10年</span>
+      <span class="wcard-price">¥700（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：スカイ島（アイランズ）</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">海塩、生牡蠣、柑橘の甘み、力強いピートスモーク。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">煙るようなスモーキー、黒胡椒のスパイス、甘いモルト。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">胡椒のようなスパイシーなロングフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1830年創業、スカイ島唯一の蒸溜所。MADE BY THE SEAを体現する、海のミネラルと力強いピートが融合した唯一無二のモルト。島の荒々しい海岸線を一杯に閉じ込めた雄渾な傑作。</div>
+  </div>
+
+  <!-- 2：オーヘントッシャン12年（新規） -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">オーヘントッシャン 12年</span>
+      <span class="wcard-price">¥800（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：ローランド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">繊細なクリームブリュレ、爽やかなシトラス、香ばしいナッツ、若葉の清々しい香り。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">極めて滑らかな口当たり、芳醇なオレンジとライムの甘み、洗練された調和。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">穏やかなジンジャーの温かみと香ばしいナッツの余韻が長く続く。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">ローランド地方を代表する銘柄。伝統的な3回蒸溜でつくられる、非常に滑らかでライトなシングルモルト。バーボン樽とシェリー樽で12年以上熟成され、アーモンドやキャラメル様の甘さ、シトラスの甘酸が漂う、都会的で洗練された逸品。</div>
+  </div>
+
+  <!-- 3：アードベッグ10年（人気増刷） -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">アードベッグ 10年</span>
+      <span class="wcard-price">¥900（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：アイラ島</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">潮風、タールロープ、強烈なスモーキーさ、柑橘系の爽やかさ、ダークチョコレート。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">爆発的なピートの風味、レモンとライムの爽やかさ、黒胡椒のスパイス、熟した果実。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">長くスモーキーな余韻、焦げたエスプレッソとトーストアーモンドのニュアンス。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">アイラ島で造られる、業界最高水準50〜60ppmのピート含有量を誇るシングルモルト。2008年ワールド・ウイスキー・オブ・ザ・イヤー受賞。世界最高峰のピーテッドモルトとして崇められる、圧倒的な個性と複雑さを誇るアイラの至宝。</div>
+  </div>
+
+  <!-- 4：アードベッグ10年（新規） -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">アードベッグ 10年</span>
+      <span class="wcard-price">¥900（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：アイラ島</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">潮風、タールロープ、強烈なスモーキーさ、柑橘系の爽やかさ、ダークチョコレート。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">爆発的なピートの風味、レモンとライムの爽やかさ、黒胡椒のスパイス、熟した果実。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">長くスモーキーな余韻、焦げたエスプレッソとトーストアーモンドのニュアンス。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">アイラ島で造られる、業界最高水準50〜60ppmのピート含有量を誇るシングルモルト。2008年ワールド・ウイスキー・オブ・ザ・イヤー受賞。世界最高峰のピーテッドモルトとして崇められる、圧倒的な個性と複雑さを誇るアイラの至宝。</div>
+  </div>
+
+  <!-- 5：アランクォーターカスク（新規） -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">アラン クォーターカスク</span>
+      <span class="wcard-price">¥1,100（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：アラン島（アイランズ）</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">レモンピール、綿あめ、ココア、トロピカルフルーツ、バニラの甘美な香り。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">パイナップルや青リンゴの爽やかさ、バニラ、オーク、ペッパー、ハチミツの甘み。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">小樽熟成による力強いスパイスとオークの余韻が長く続く。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">バーボン樽で7年熟成後、通常の1/4の大きさの小樽（クォーターカスク）で2年間追熟し、度数56.2%のカスクストレングスでボトリング。小樽熟成が織りなす凝縮された風味と複雑さが、アランの真髄を深く感じさせる逸品。</div>
+  </div>
+
+  <!-- 6：グレンフィディック12年（人気増刷） -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">グレンフィディック 12年</span>
+      <span class="wcard-price">¥700（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：スペイサイド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">洋梨のニュアンスを伴う、はっきりと新鮮でフルーティーな香り。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">甘くフルーティー、バタースコッチ、クリーム、モルト、微かなオーク。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">長く、なめらかで穏やかな余韻。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1887年創業以来、同じ水源の湧き水を使用し、12年以上熟成させた原酒のみで造られる「シングルモルトのパイオニア」。アメリカンオーク樽とヨーロピアンシェリー樽で熟成され、世界で最も受賞歴のある逸品。</div>
+  </div>
+
+  <!-- 7：ロングロウ（新規） -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">ロングロウ</span>
+      <span class="wcard-price">¥1,700（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：キャンベルタウン</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">クリーミーなバニラカスタード、穏やかな煙、トーストしたマシュマロ、ハーブ、豊かなフルーツ。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">驚くほどバランスが良く、リッチでクリーミー、わずかな薬草のニュアンス、穏やかな煙。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">優雅な煙が長く尾を引き、さらなる一口を誘うような余韻。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">スプリングバンク蒸溜所で造られる、ヘビーでオイリーなシングルモルト。フェノール値50-55ppmの麦芽を2回蒸留し、キャンベルタウンモルトの特徴である甘いスモークと潮風のバランスが秀逸。様々な年数・カスクタイプを混ぜることで個性を最大限に表現している。</div>
+  </div>
+
+  <!-- 8：スプリングバンク10年（新規） -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">スプリングバンク 10年</span>
+      <span class="wcard-price">¥3,200（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：キャンベルタウン</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">活気ある穀物、グーズベリー、マンゴー、バニラ、ハニーコーム。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">オートミール、モルト、オレンジの果肉、ヘザーハニー、トフィー、ナツメグ、シナモン。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">特徴的な潮の香りが心地よく長く続く。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">「モルトの香水」とも称されるスプリングバンク蒸溜所のフラッグシップ。キャンベルタウン地方を代表するシングルモルトで、軽くピートを焚き込んだ麦芽を使用し、シェリー樽とバーボン樽で熟成。2回半蒸溜で作られる、複雑ながらも完璧なバランスを誇る至宝。</div>
+  </div>
+
+</div>
+
+</body>
+</html>

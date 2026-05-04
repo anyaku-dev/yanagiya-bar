@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>柳屋BAR ― スコットランド蒸留所マップ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Noto+Serif+JP:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+@page{size:A3 landscape;margin:0}
+html,body{
+  margin:0;padding:0;width:420mm;height:297mm;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  font-family:'Noto Sans JP',sans-serif;
+  background:#a4927a;
+}
+.page{
+  width:420mm;height:297mm;position:relative;overflow:hidden;
+  /* Old-map ocean: warm sepia-tinted blue-grey */
+  background:
+    radial-gradient(ellipse at 30% 30%,rgba(180,170,145,.35) 0%,transparent 50%),
+    radial-gradient(ellipse at 75% 60%,rgba(160,155,130,.3) 0%,transparent 50%),
+    linear-gradient(160deg,#c4b89e 0%,#b8aa90 30%,#a89878 60%,#b0a48a 100%);
+}
+/* aged parchment noise */
+.page::before{
+  content:'';position:absolute;inset:0;opacity:.05;z-index:1;pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.55' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+/* vignette burn edges */
+.page::after{
+  content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 55%,rgba(60,40,15,.2) 100%);
+}
+/* borders — double line old map style */
+.bdr-o{position:absolute;inset:5mm;border:2.5px solid #5a4228;z-index:50;pointer-events:none}
+.bdr-i{position:absolute;inset:8mm;border:1px solid rgba(90,66,40,.4);z-index:50;pointer-events:none}
+/* corners */
+.crn{position:absolute;width:24mm;height:24mm;z-index:51;pointer-events:none}
+.crn svg{width:100%;height:100%}
+.c-tl{top:3mm;left:3mm}
+.c-tr{top:3mm;right:3mm;transform:scaleX(-1)}
+.c-bl{bottom:3mm;left:3mm;transform:scaleY(-1)}
+.c-br{bottom:3mm;right:3mm;transform:scale(-1)}
+
+/* title cartouche */
+.title-box{
+  position:absolute;top:10mm;left:50%;transform:translateX(-50%);z-index:60;
+  text-align:center;
+  background:rgba(232,222,198,.95);
+  border:2.5px solid #5a4228;border-radius:4px;
+  padding:3.5mm 16mm 3mm;
+  box-shadow:0 2px 12px rgba(40,25,5,.15);
+}
+.title-main{
+  font-family:'Cormorant Garamond',serif;
+  font-size:28pt;font-weight:600;font-style:italic;
+  color:#2a1808;letter-spacing:.1em;
+}
+.title-sub{
+  font-family:'Cormorant Garamond',serif;
+  font-size:11pt;font-weight:300;letter-spacing:.22em;
+  color:#6a5030;margin-top:.5mm;
+}
+
+/* logo */
+.map-logo{position:absolute;top:12mm;right:18mm;z-index:60;width:20mm;opacity:.5}
+
+/* legend — styled as old scroll */
+.legend{
+  position:absolute;bottom:13mm;left:13mm;z-index:60;
+  background:rgba(232,222,198,.95);border:2px solid #5a4228;
+  border-radius:4px;padding:5mm 6mm;
+  box-shadow:0 2px 10px rgba(40,25,5,.12);
+}
+.legend h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:14pt;font-weight:600;font-style:italic;
+  color:#2a1808;letter-spacing:.1em;margin-bottom:3mm;
+  padding-bottom:2mm;border-bottom:1.5px solid rgba(90,66,40,.3);
+}
+.legend-r{display:flex;align-items:center;gap:3mm;margin-bottom:2.5mm}
+.legend-dot{width:5mm;height:5mm;border-radius:50%;border:.8px solid rgba(0,0,0,.2);flex-shrink:0}
+.legend-t{font-size:10pt;color:#2a1808;letter-spacing:.04em;font-weight:500}
+.legend-te{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:9pt;color:#7a6040;margin-left:1mm}
+
+/* Orkney inset */
+.orkney-inset{
+  position:absolute;top:10mm;left:13mm;z-index:55;
+  width:60mm;
+  background:rgba(232,222,198,.94);
+  border:2px solid #5a4228;border-radius:4px;
+  padding:3mm 4mm 3.5mm;
+  box-shadow:0 2px 10px rgba(40,25,5,.12);
+}
+.orkney-inset .oi-title{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:10pt;color:#4a3820;text-align:center;
+  margin-bottom:2mm;letter-spacing:.1em;
+}
+.orkney-inset .oi-map{
+  width:18mm;height:12mm;
+  background:linear-gradient(135deg,#ddd4b8,#d0c8a8);
+  border-radius:35% 45% 40% 35%;margin:0 auto 2.5mm;
+  border:1px solid #7a6a4a;position:relative;
+}
+.orkney-inset .oi-dot{
+  position:absolute;top:48%;left:55%;
+  width:9px;height:9px;border-radius:50%;
+  background:#2a6a8a;border:1.5px solid #1a3a4a;
+  transform:translate(-50%,-50%);
+  box-shadow:0 1px 3px rgba(0,0,0,.3);
+}
+.orkney-inset .oi-text{text-align:center;line-height:1.5}
+.orkney-inset .oi-text .jp{font-family:'Noto Serif JP',serif;font-size:12pt;font-weight:500;color:#1a0a00}
+.orkney-inset .oi-text .en{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:10pt;color:#5a4a2a}
+.orkney-inset .oi-text .pr{font-family:'Cormorant Garamond',serif;font-size:11pt;color:#8a5a1a;font-weight:500}
+
+/* note — top-right to avoid compass overlap */
+.note-box{
+  position:absolute;top:10mm;right:18mm;z-index:55;
+  margin-top:26mm;
+  background:rgba(232,222,198,.92);border:1.5px solid rgba(90,66,40,.4);
+  border-radius:3px;padding:4mm 5mm;max-width:70mm;
+  box-shadow:0 2px 8px rgba(40,25,5,.1);
+}
+.note-box p{font-size:8pt;color:#5a4a2a;line-height:1.9;letter-spacing:.03em}
+.note-box .nt{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:11pt;color:#2a1808;margin-bottom:1.5mm}
+
+/* sea labels */
+.sea-lbl{
+  position:absolute;z-index:5;pointer-events:none;
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  color:#6a5a3a;letter-spacing:.3em;
+}
+
+/* region labels */
+.rgn-lbl{
+  position:absolute;z-index:8;pointer-events:none;
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  letter-spacing:.18em;
+}
+
+/* city */
+.city{
+  position:absolute;z-index:9;pointer-events:none;
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:9pt;color:rgba(50,35,15,.45);
+  white-space:nowrap;
+}
+.city::before{
+  content:'';display:inline-block;width:6px;height:6px;
+  border:1px solid rgba(50,35,15,.4);border-radius:50%;
+  margin-right:3px;vertical-align:middle;
+}
+
+/* map area */
+.map-area{
+  position:absolute;
+  top:26mm;bottom:8mm;
+  left:72mm;right:72mm;
+  z-index:10;
+}
+.map-area .scotland-img{
+  width:100%;height:100%;
+  object-fit:contain;object-position:center center;
+  /* Black SVG → warm parchment land color */
+  filter:
+    invert(90%)
+    sepia(25%)
+    saturate(40%)
+    hue-rotate(15deg)
+    brightness(100%)
+    contrast(90%)
+    drop-shadow(3px 4px 8px rgba(50,30,5,.18));
+}
+
+/* compass — bottom right, clear of note */
+.compass{
+  position:absolute;bottom:14mm;right:15mm;
+  z-index:55;width:38mm;height:38mm;opacity:.6;
+}
+
+/* mountain illustrations (SVG overlays on land) */
+.mountains{
+  position:absolute;z-index:7;pointer-events:none;opacity:.12;
+}
+
+/* ship illustrations */
+.ship{
+  position:absolute;z-index:4;pointer-events:none;opacity:.1;
+}
+
+/* sea monster */
+.seamonster{
+  position:absolute;z-index:4;pointer-events:none;opacity:.07;
+}
+
+@media print{html,body{width:420mm;height:297mm}}
+@media screen{
+  body{display:flex;justify-content:center;align-items:flex-start;
+    min-height:100vh;background:#6a5a44;padding:20px 0;width:auto;height:auto}
+  .page{box-shadow:0 10px 60px rgba(0,0,0,.4);flex-shrink:0}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="bdr-o"></div><div class="bdr-i"></div>
+<div class="crn c-tl"><svg viewBox="0 0 80 80" fill="none"><path d="M2 78V2H78" stroke="#5a4228" stroke-width="2.5"/><path d="M12 66V12H66" stroke="#5a4228" stroke-width=".5" opacity=".3"/><circle cx="2" cy="2" r="3.5" fill="#5a4228" opacity=".5"/><path d="M2 2C14 6 26 4 38 2" stroke="#5a4228" stroke-width=".7" opacity=".3"/><path d="M2 2C6 14 4 26 2 38" stroke="#5a4228" stroke-width=".7" opacity=".3"/></svg></div>
+<div class="crn c-tr"><svg viewBox="0 0 80 80" fill="none"><path d="M2 78V2H78" stroke="#5a4228" stroke-width="2.5"/><path d="M12 66V12H66" stroke="#5a4228" stroke-width=".5" opacity=".3"/><circle cx="2" cy="2" r="3.5" fill="#5a4228" opacity=".5"/><path d="M2 2C14 6 26 4 38 2" stroke="#5a4228" stroke-width=".7" opacity=".3"/><path d="M2 2C6 14 4 26 2 38" stroke="#5a4228" stroke-width=".7" opacity=".3"/></svg></div>
+<div class="crn c-bl"><svg viewBox="0 0 80 80" fill="none"><path d="M2 78V2H78" stroke="#5a4228" stroke-width="2.5"/><path d="M12 66V12H66" stroke="#5a4228" stroke-width=".5" opacity=".3"/><circle cx="2" cy="2" r="3.5" fill="#5a4228" opacity=".5"/><path d="M2 2C14 6 26 4 38 2" stroke="#5a4228" stroke-width=".7" opacity=".3"/><path d="M2 2C6 14 4 26 2 38" stroke="#5a4228" stroke-width=".7" opacity=".3"/></svg></div>
+<div class="crn c-br"><svg viewBox="0 0 80 80" fill="none"><path d="M2 78V2H78" stroke="#5a4228" stroke-width="2.5"/><path d="M12 66V12H66" stroke="#5a4228" stroke-width=".5" opacity=".3"/><circle cx="2" cy="2" r="3.5" fill="#5a4228" opacity=".5"/><path d="M2 2C14 6 26 4 38 2" stroke="#5a4228" stroke-width=".7" opacity=".3"/><path d="M2 2C6 14 4 26 2 38" stroke="#5a4228" stroke-width=".7" opacity=".3"/></svg></div>
+
+<!-- Title -->
+<div class="title-box">
+  <div class="title-main">The Scotch Whisky Distillery Map</div>
+  <div class="title-sub">YANAGIYA BAR ― SINGLE MALT COLLECTION</div>
+</div>
+<img class="map-logo" src="yanagiya-symbol.png" alt="柳屋BAR">
+
+<!-- Legend -->
+<div class="legend">
+  <h3>Whisky Regions</h3>
+  <div class="legend-r"><span class="legend-dot" style="background:#4a7a30"></span><span class="legend-t">スペイサイド</span><span class="legend-te">Speyside</span></div>
+  <div class="legend-r"><span class="legend-dot" style="background:#b07020"></span><span class="legend-t">ハイランド</span><span class="legend-te">Highland</span></div>
+  <div class="legend-r"><span class="legend-dot" style="background:#b83018"></span><span class="legend-t">アイラ島</span><span class="legend-te">Islay</span></div>
+  <div class="legend-r"><span class="legend-dot" style="background:#1a5a7a"></span><span class="legend-t">アイランズ</span><span class="legend-te">Islands</span></div>
+  <div class="legend-r"><span class="legend-dot" style="background:#6a4a90"></span><span class="legend-t">ローランド</span><span class="legend-te">Lowland</span></div>
+  <div class="legend-r"><span class="legend-dot" style="background:#9a6010"></span><span class="legend-t">キャンベルタウン</span><span class="legend-te">Campbeltown</span></div>
+</div>
+
+<!-- Orkney inset -->
+<div class="orkney-inset">
+  <div class="oi-title">Orkney Islands（インセット）</div>
+  <div class="oi-map"><div class="oi-dot"></div></div>
+  <div class="oi-text">
+    <span class="jp">ハイランドパーク 18年</span><br>
+    <span class="en">Highland Park 18yr ― Kirkwall</span><br>
+    <span class="pr">¥1,800</span>
+  </div>
+</div>
+
+<!-- Note — moved to top-right area below title to avoid compass overlap -->
+<div class="note-box">
+  <div class="nt">About This Map</div>
+  <p>柳屋BARのウイスキー全銘柄の蒸留所をマッピング。<br>価格は1杯（30ml）税込。オークニー諸島は左上に表示。</p>
+</div>
+
+<!-- Sea labels -->
+<div class="sea-lbl" style="top:40%;left:5mm;font-size:16pt;transform:rotate(-12deg);opacity:.2">ATLANTIC</div>
+<div class="sea-lbl" style="top:47%;left:10mm;font-size:13pt;transform:rotate(-12deg);opacity:.18">OCEAN</div>
+<div class="sea-lbl" style="top:16%;right:14mm;font-size:14pt;opacity:.18">NORTH SEA</div>
+<div class="sea-lbl" style="bottom:30%;right:16mm;font-size:11pt;opacity:.14">North Sea</div>
+
+<!-- ===== SHIP ILLUSTRATIONS (on sea) ===== -->
+<svg class="ship" style="top:28%;left:10mm;width:28mm;height:22mm" viewBox="0 0 100 80">
+  <g fill="#4a3518" stroke="#4a3518">
+    <!-- hull -->
+    <path d="M10,55 Q50,30 90,55 L85,62 15,62 Z" stroke-width="1" fill="#4a3518"/>
+    <!-- mast -->
+    <line x1="50" y1="55" x2="50" y2="12" stroke-width="2"/>
+    <!-- main sail -->
+    <path d="M50,14 Q72,22 50,42" fill="#4a3518" opacity=".5" stroke="none"/>
+    <!-- fore sail -->
+    <path d="M50,16 Q32,24 50,38" fill="#4a3518" opacity=".3" stroke="none"/>
+    <!-- flag -->
+    <path d="M50,12 L58,16 50,20" fill="#4a3518" opacity=".6" stroke="none"/>
+    <!-- waves -->
+    <path d="M5,63 Q20,58 35,63 Q50,68 65,63 Q80,58 95,63" fill="none" stroke-width=".8" opacity=".5"/>
+  </g>
+</svg>
+
+<svg class="ship" style="top:18%;right:28mm;width:22mm;height:18mm;transform:scaleX(-1)" viewBox="0 0 100 80">
+  <g fill="#4a3518" stroke="#4a3518">
+    <path d="M10,55 Q50,30 90,55 L85,62 15,62 Z" stroke-width="1"/>
+    <line x1="50" y1="55" x2="50" y2="15" stroke-width="1.8"/>
+    <path d="M50,17 Q70,24 50,40" fill="#4a3518" opacity=".5" stroke="none"/>
+    <path d="M50,19 Q34,26 50,36" fill="#4a3518" opacity=".3" stroke="none"/>
+    <path d="M5,63 Q20,58 35,63 Q50,68 65,63 Q80,58 95,63" fill="none" stroke-width=".8" opacity=".5"/>
+  </g>
+</svg>
+
+<svg class="ship" style="bottom:22%;left:18mm;width:20mm;height:16mm;transform:rotate(8deg)" viewBox="0 0 100 80">
+  <g fill="#4a3518" stroke="#4a3518">
+    <path d="M15,55 Q50,35 85,55 L80,60 20,60 Z" stroke-width="1"/>
+    <line x1="50" y1="55" x2="50" y2="18" stroke-width="1.5"/>
+    <path d="M50,20 Q68,26 50,40" fill="#4a3518" opacity=".5" stroke="none"/>
+    <path d="M5,61 Q22,56 40,61 Q57,66 75,61 Q90,56 95,61" fill="none" stroke-width=".7" opacity=".4"/>
+  </g>
+</svg>
+
+<!-- ===== MOUNTAIN ILLUSTRATIONS (on land) ===== -->
+<!-- Highland mountains -->
+<svg class="mountains" style="top:42%;left:38%;width:50mm;height:18mm" viewBox="0 0 200 60">
+  <g fill="none" stroke="#3a2810" stroke-width="1.2">
+    <path d="M10,55 L35,15 60,55"/>
+    <path d="M45,55 L75,8 105,55"/>
+    <path d="M85,55 L110,18 135,55"/>
+    <path d="M120,55 L150,12 180,55"/>
+    <!-- snow caps -->
+    <path d="M30,22 L35,15 40,22" stroke-width=".8" opacity=".5"/>
+    <path d="M70,15 L75,8 80,15" stroke-width=".8" opacity=".5"/>
+    <path d="M105,24 L110,18 115,24" stroke-width=".8" opacity=".5"/>
+    <path d="M145,18 L150,12 155,18" stroke-width=".8" opacity=".5"/>
+  </g>
+</svg>
+<!-- Speyside hills -->
+<svg class="mountains" style="top:30%;left:52%;width:30mm;height:12mm" viewBox="0 0 120 40">
+  <g fill="none" stroke="#3a2810" stroke-width="1">
+    <path d="M5,35 L25,10 45,35"/>
+    <path d="M35,35 L55,8 75,35"/>
+    <path d="M65,35 L85,12 105,35"/>
+    <path d="M22,14 L25,10 28,14" stroke-width=".7" opacity=".4"/>
+    <path d="M52,12 L55,8 58,12" stroke-width=".7" opacity=".4"/>
+  </g>
+</svg>
+<!-- Southern highlands -->
+<svg class="mountains" style="top:58%;left:34%;width:25mm;height:10mm;opacity:.08" viewBox="0 0 100 35">
+  <g fill="none" stroke="#3a2810" stroke-width="1">
+    <path d="M5,30 L22,8 40,30"/>
+    <path d="M30,30 L50,5 70,30"/>
+    <path d="M60,30 L78,10 95,30"/>
+  </g>
+</svg>
+
+<!-- ===== SEA MONSTER (decorative) ===== -->
+<svg class="seamonster" style="bottom:18%;right:22mm;width:35mm;height:20mm" viewBox="0 0 140 70">
+  <g fill="none" stroke="#4a3518" stroke-width="1.5" stroke-linecap="round">
+    <!-- body humps -->
+    <path d="M10,50 Q25,20 40,50 Q55,20 70,50 Q85,20 100,50"/>
+    <!-- head -->
+    <circle cx="110" cy="42" r="8" fill="#4a3518" opacity=".3"/>
+    <circle cx="113" cy="40" r="2" fill="#4a3518" opacity=".5"/>
+    <!-- tail -->
+    <path d="M10,50 Q0,35 8,25" stroke-width="1.2"/>
+  </g>
+</svg>
+
+<!-- Wave lines (sea) -->
+<svg style="position:absolute;top:32%;left:3mm;width:55mm;height:8mm;z-index:3;pointer-events:none;opacity:.06" viewBox="0 0 200 20"><path d="M0,10Q25,2 50,10Q75,18 100,10Q125,2 150,10Q175,18 200,10" fill="none" stroke="#4a3518" stroke-width="1.2"/></svg>
+<svg style="position:absolute;top:52%;left:5mm;width:45mm;height:8mm;z-index:3;pointer-events:none;opacity:.05" viewBox="0 0 200 20"><path d="M0,10Q25,2 50,10Q75,18 100,10Q125,2 150,10" fill="none" stroke="#4a3518" stroke-width="1"/></svg>
+<svg style="position:absolute;top:35%;right:8mm;width:50mm;height:8mm;z-index:3;pointer-events:none;opacity:.05" viewBox="0 0 200 20"><path d="M0,10Q25,2 50,10Q75,18 100,10Q125,2 150,10Q175,18 200,10" fill="none" stroke="#4a3518" stroke-width="1"/></svg>
+<svg style="position:absolute;bottom:35%;right:10mm;width:40mm;height:8mm;z-index:3;pointer-events:none;opacity:.04" viewBox="0 0 200 20"><path d="M0,10Q25,2 50,10Q75,18 100,10Q125,2 150,10" fill="none" stroke="#4a3518" stroke-width="1"/></svg>
+<svg style="position:absolute;bottom:15%;left:30mm;width:50mm;height:8mm;z-index:3;pointer-events:none;opacity:.05" viewBox="0 0 200 20"><path d="M0,10Q25,2 50,10Q75,18 100,10Q125,2 150,10Q175,18 200,10" fill="none" stroke="#4a3518" stroke-width="1"/></svg>
+
+<!-- Region labels -->
+<div class="rgn-lbl" style="top:31%;left:51%;font-size:14pt;color:#3a5a1a;opacity:.3">S P E Y S I D E</div>
+<div class="rgn-lbl" style="top:50%;left:40%;font-size:17pt;color:#7a5018;opacity:.25">H I G H L A N D</div>
+<div class="rgn-lbl" style="top:86%;left:48%;font-size:14pt;color:#5a3a70;opacity:.3">L O W L A N D</div>
+<div class="rgn-lbl" style="top:72%;left:16%;font-size:12pt;color:#8a2010;opacity:.3">I S L A Y</div>
+<div class="rgn-lbl" style="top:43%;left:15%;font-size:10pt;color:#1a5070;opacity:.3">Isle of Skye</div>
+<div class="rgn-lbl" style="top:74%;left:29%;font-size:9pt;color:#1a5070;opacity:.25">Isle of Arran</div>
+<div class="rgn-lbl" style="top:83%;left:22%;font-size:9pt;color:#7a4a08;opacity:.3">Campbeltown</div>
+
+<!-- Cities -->
+<div class="city" style="top:83%;left:55%">Edinburgh</div>
+<div class="city" style="top:83.5%;left:40%">Glasgow</div>
+<div class="city" style="top:38%;left:47%">Inverness</div>
+<div class="city" style="top:43%;left:67%">Aberdeen</div>
+
+<!-- ===== MAP ===== -->
+<div class="map-area" id="mapArea">
+  <img class="scotland-img" id="scotImg" src="Scotland.svg" alt="Scotland">
+  <svg id="pinSvg" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:12;pointer-events:none;overflow:visible"></svg>
+  <div id="pinLayer" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:13;pointer-events:none"></div>
+</div>
+
+<!-- ===== COMPASS ROSE (bottom-right, clear of note) ===== -->
+<svg class="compass" viewBox="-80 -80 160 160">
+  <!-- Outer rings -->
+  <circle r="65" fill="none" stroke="#5a4228" stroke-width="1" opacity=".3"/>
+  <circle r="55" fill="none" stroke="#5a4228" stroke-width=".6" opacity=".25"/>
+  <circle r="45" fill="none" stroke="#5a4228" stroke-width=".3" opacity=".2"/>
+  <!-- Tick marks -->
+  <g stroke="#5a4228" stroke-width=".4" opacity=".2">
+    <line x1="0" y1="-65" x2="0" y2="-55"/><line x1="0" y1="55" x2="0" y2="65"/>
+    <line x1="-65" y1="0" x2="-55" y2="0"/><line x1="55" y1="0" x2="65" y2="0"/>
+    <line x1="46" y1="-46" x2="39" y2="-39"/><line x1="-46" y1="-46" x2="-39" y2="-39"/>
+    <line x1="46" y1="46" x2="39" y2="39"/><line x1="-46" y1="46" x2="-39" y2="39"/>
+  </g>
+  <!-- Cardinal points -->
+  <polygon points="0,-60 -9,-16 0,-24 9,-16" fill="#5a4228" opacity=".6"/>
+  <polygon points="0,60 -8,16 0,24 8,16" fill="#8a7a5a" opacity=".35"/>
+  <polygon points="60,0 16,-8 24,0 16,8" fill="#8a7a5a" opacity=".35"/>
+  <polygon points="-60,0 -16,-8 -24,0 -16,8" fill="#8a7a5a" opacity=".35"/>
+  <!-- Intercardinal -->
+  <polygon points="42,-42 8,-8 14,-2 2,-14" fill="#8a7a5a" opacity=".15"/>
+  <polygon points="-42,-42 -8,-8 -14,-2 -2,-14" fill="#8a7a5a" opacity=".15"/>
+  <polygon points="42,42 8,8 14,2 2,14" fill="#8a7a5a" opacity=".15"/>
+  <polygon points="-42,42 -8,8 -14,2 -2,14" fill="#8a7a5a" opacity=".15"/>
+  <!-- Labels -->
+  <text x="0" y="-70" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="16" fill="#3a2810" font-style="italic" font-weight="600">N</text>
+  <text x="0" y="80" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="13" fill="#6a5a3a" font-style="italic">S</text>
+  <text x="76" y="5" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="13" fill="#6a5a3a" font-style="italic">E</text>
+  <text x="-76" y="5" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="13" fill="#6a5a3a" font-style="italic">W</text>
+  <!-- Center -->
+  <circle r="5" fill="#5a4228" opacity=".4"/>
+  <circle r="2" fill="#8a7a5a" opacity=".6"/>
+  <!-- Fleur-de-lis hint at North -->
+  <path d="M0,-58 L-2,-52 0,-55 2,-52Z" fill="#3a2810" opacity=".4"/>
+</svg>
+
+</div>
+
+<script>
+/*
+  ===== COORDINATE CALIBRATION =====
+  
+  Known reference points:
+    Edinburgh:  55.953°N, -3.188°W
+    Glasgow:    55.862°N, -4.258°W  
+    Inverness:  57.478°N, -4.224°W
+    Aberdeen:   57.150°N, -2.094°W
+  
+  From the previous screenshot, pins were generally:
+    - Too far WEST (too far left) → lonW needs to move further west
+    - Too far SOUTH (too far down) → latS needs to move further south, or latN up
+    - Islay group was below the island → latS correction needed
+  
+  The SVG includes: mainland, Skye, Mull, Islay, Arran, Jura, Lewis/Harris, 
+  small islands but NOT Orkney/Shetland.
+  
+  Refined bounds after careful analysis of the SVG's actual coverage:
+*/
+
+const GEO = {
+  latN: 58.68,   // North tip of mainland (Cape Wrath area)
+  latS: 54.62,   // South border area
+  lonW: -8.18,   // West edge (Outer Hebrides, but SVG may crop tighter)
+  lonE: -0.72    // East coast
+};
+
+function geo(lat, lon) {
+  return {
+    x: (lon - GEO.lonW) / (GEO.lonE - GEO.lonW) * 100,
+    y: (GEO.latN - lat) / (GEO.latN - GEO.latS) * 100
+  };
+}
+
+const D = [
+  // SPEYSIDE
+  { n:'グレンフィディック 12年', e:'Glenfiddich 12yr', p:'¥700',
+    lat:57.454, lon:-3.128, c:'#4a7a30', d:'topright' },
+  { n:'モートラック 12年', e:'Mortlach 12yr', p:'¥1,000',
+    lat:57.446, lon:-3.121, c:'#4a7a30', d:'bottomright' },
+  { n:'マッカラン 12年', e:'Macallan 12yr', p:'¥1,700',
+    lat:57.485, lon:-3.205, c:'#4a7a30', d:'top' },
+  { n:'アベラワー アブーナ', e:"Aberlour A'bunadh", p:'¥1,400',
+    lat:57.472, lon:-3.229, c:'#4a7a30', d:'left' },
+  { n:'グレンリベット 12年', e:'Glenlivet Illicit Still', p:'¥1,200',
+    lat:57.341, lon:-3.337, c:'#4a7a30', d:'bottomleft' },
+  // HIGHLAND
+  { n:'ダルウィニー 15年', e:'Dalwhinnie 15yr', p:'¥900',
+    lat:56.942, lon:-3.944, c:'#b07020', d:'right' },
+  { n:'オーバン 14年', e:'Oban 14yr', p:'¥1,200',
+    lat:56.415, lon:-5.172, c:'#b07020', d:'left' },
+  { n:'グレンドロナック 12年', e:'GlenDronach 12yr', p:'¥800',
+    lat:57.437, lon:-2.830, c:'#b07020', d:'right' },
+  { n:'ロイヤルブラックラ 12年', e:'Royal Brackla 12yr', p:'¥1,100',
+    lat:57.510, lon:-3.750, c:'#b07020', d:'topleft' },
+  // ISLAY
+  { n:'ラガヴーリン 8年/16年', e:'Lagavulin 8yr ¥800 / 16yr ¥1,200', p:'',
+    lat:55.636, lon:-5.997, c:'#b83018', d:'bottomleft' },
+  { n:'アードベッグ', e:'Ardbeg 10yr ¥900 / Corryvreckan ¥1,300', p:'',
+    lat:55.640, lon:-5.987, c:'#b83018', d:'bottomright' },
+  { n:'ラフロイグ ロア', e:'Laphroaig Lore', p:'¥1,800',
+    lat:55.631, lon:-6.002, c:'#b83018', d:'bottom' },
+  { n:'ボウモア 15年', e:'Bowmore 15yr', p:'¥1,600',
+    lat:55.756, lon:-6.089, c:'#b83018', d:'left' },
+  { n:'ブナハーブン 12年', e:'Bunnahabhain 12yr', p:'¥1,100',
+    lat:55.933, lon:-5.928, c:'#b83018', d:'topleft' },
+  // ISLANDS
+  { n:'タリスカー 10年', e:'Talisker 10yr', p:'¥700',
+    lat:57.332, lon:-6.006, c:'#1a5a7a', d:'left' },
+  { n:'アラン クォーターカスク', e:'Arran Quarter Cask', p:'¥1,100',
+    lat:55.707, lon:-5.102, c:'#1a5a7a', d:'right' },
+  // LOWLAND
+  { n:'オーヘントッシャン 12年', e:'Auchentoshan 12yr', p:'¥800',
+    lat:55.914, lon:-4.425, c:'#6a4a90', d:'left' },
+  { n:'リンドーズ', e:'Lindores Abbey', p:'¥900',
+    lat:56.382, lon:-2.906, c:'#6a4a90', d:'right' },
+  // CAMPBELTOWN
+  { n:'スプリングバンク 10年 / ロングロウ', e:'Springbank 10yr ¥3,200 / Longrow ¥1,700', p:'',
+    lat:55.426, lon:-5.597, c:'#9a6010', d:'bottomleft' },
+];
+
+function render() {
+  const area = document.getElementById('mapArea');
+  const img = document.getElementById('scotImg');
+  const svgEl = document.getElementById('pinSvg');
+  const layer = document.getElementById('pinLayer');
+  svgEl.innerHTML = '';
+  layer.innerHTML = '';
+
+  const aRect = area.getBoundingClientRect();
+  const iRect = img.getBoundingClientRect();
+  const iL = iRect.left - aRect.left;
+  const iT = iRect.top - aRect.top;
+  const iW = iRect.width;
+  const iH = iRect.height;
+
+  const offs = {
+    top:         { dx:0,    dy:-68, ax:'center' },
+    topright:    { dx:100,  dy:-58, ax:'left'   },
+    topleft:     { dx:-100, dy:-58, ax:'right'  },
+    right:       { dx:110,  dy:-8,  ax:'left'   },
+    left:        { dx:-110, dy:-8,  ax:'right'  },
+    bottom:      { dx:0,    dy:55,  ax:'center' },
+    bottomright: { dx:100,  dy:50,  ax:'left'   },
+    bottomleft:  { dx:-100, dy:50,  ax:'right'  },
+  };
+
+  D.forEach(d => {
+    const pct = geo(d.lat, d.lon);
+    const px = iL + (pct.x / 100) * iW;
+    const py = iT + (pct.y / 100) * iH;
+
+    // Dot
+    const dot = document.createElement('div');
+    dot.style.cssText = `position:absolute;left:${px}px;top:${py}px;
+      width:12px;height:12px;border-radius:50%;background:${d.c};
+      border:2px solid rgba(255,255,255,.4);
+      box-shadow:0 1px 5px rgba(0,0,0,.35);
+      transform:translate(-50%,-50%);z-index:15;`;
+    layer.appendChild(dot);
+
+    const off = offs[d.d] || offs.right;
+    const lx = px + off.dx;
+    const ly = py + off.dy;
+
+    // Leader line
+    const ln = document.createElementNS('http://www.w3.org/2000/svg','line');
+    ln.setAttribute('x1', px); ln.setAttribute('y1', py);
+    ln.setAttribute('x2', lx); ln.setAttribute('y2', ly + 8);
+    ln.setAttribute('stroke', d.c);
+    ln.setAttribute('stroke-width', '1');
+    ln.setAttribute('opacity', '0.5');
+    svgEl.appendChild(ln);
+
+    let trx = '0', ta = 'left';
+    if (off.ax === 'right') { trx = '-100%'; ta = 'right'; }
+    else if (off.ax === 'center') { trx = '-50%'; ta = 'center'; }
+
+    const lbl = document.createElement('div');
+    lbl.style.cssText = `position:absolute;left:${lx}px;top:${ly}px;
+      transform:translateX(${trx});text-align:${ta};
+      white-space:nowrap;z-index:16;pointer-events:none;
+      background:rgba(232,222,198,.82);padding:2px 6px;border-radius:3px;
+      border:1px solid rgba(90,66,40,.12);`;
+    lbl.innerHTML =
+      `<span style="font-family:'Noto Serif JP',serif;font-size:11pt;font-weight:600;color:#1a0a00;display:block;line-height:1.4">${d.n}</span>`+
+      `<span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:9pt;color:#5a4a2a;display:block;line-height:1.3">${d.e}${d.p ? ' — '+d.p : ''}</span>`;
+    layer.appendChild(lbl);
+  });
+}
+
+window.addEventListener('load', () => setTimeout(render, 300));
+window.addEventListener('resize', render);
+</script>
+</body>
+</html>

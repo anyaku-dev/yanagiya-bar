@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>柳屋Bar ウイスキー説明カード 2</title>
+  <link rel="stylesheet" href="index.css">
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .card-grid-sheet {
+      width: 210mm;
+      height: 297mm;
+      margin: 0;
+      padding: 0 4mm;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: repeat(4, calc((297mm - 5mm) / 4));
+      align-content: end;
+      background: #fff;
+      page-break-after: always;
+      position: relative;
+      box-sizing: border-box;
+    }
+    .card-grid-sheet:last-child {
+      page-break-after: auto;
+    }
+
+    /* Vertical cut line */
+    .card-grid-sheet::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 0;
+      height: 100%;
+      border-left: 1.2px dashed #ccc;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    /* Horizontal cut lines */
+    .cut-line-h {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 0;
+      border-top: 1.2px dashed #ccc;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .cut-h-1 { top: calc(5mm + (297mm - 5mm) / 4); }
+    .cut-h-2 { top: calc(5mm + (297mm - 5mm) / 4 * 2); }
+    .cut-h-3 { top: calc(5mm + (297mm - 5mm) / 4 * 3); }
+
+    /* Scissors marks */
+    .scissors-mark {
+      position: absolute;
+      font-size: 7pt;
+      color: #ccc;
+      z-index: 20;
+      pointer-events: none;
+      line-height: 1;
+    }
+    .scissors-left-1 { top: calc(5mm + (297mm - 5mm) / 4); left: 0; transform: translateY(-50%); }
+    .scissors-left-2 { top: calc(5mm + (297mm - 5mm) / 4 * 2); left: 0; transform: translateY(-50%); }
+    .scissors-left-3 { top: calc(5mm + (297mm - 5mm) / 4 * 3); left: 0; transform: translateY(-50%); }
+
+    /* Each card */
+    .wcard {
+      width: 101mm;
+      padding: 4.5mm 5mm 3mm 5mm;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      box-sizing: border-box;
+    }
+
+    /* Header row */
+    .wcard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.5mm;
+      gap: 2mm;
+    }
+    .wcard-name {
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #111;
+      line-height: 1.3;
+      flex-shrink: 1;
+    }
+    .wcard-price {
+      font-family: "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Yu Mincho", "YuMincho", serif;
+      font-size: 9.5pt;
+      font-weight: 600;
+      color: #888;
+      white-space: nowrap;
+      flex-shrink: 0;
+      letter-spacing: 0.02em;
+    }
+
+    /* Meta: type + region */
+    .wcard-meta {
+      font-size: 7pt;
+      color: #888;
+      font-weight: 300;
+      margin-bottom: 1.8mm;
+      letter-spacing: 0.03em;
+      line-height: 1.3;
+      border-bottom: 0.5px solid #ddd;
+      padding-bottom: 1.5mm;
+    }
+
+    /* Tasting notes label */
+    .wcard-tasting-label {
+      font-size: 6pt;
+      font-weight: 700;
+      color: #aaa;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1mm;
+    }
+
+    /* Tasting grid */
+    .wcard-tasting-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5mm 2.5mm;
+      font-size: 7pt;
+      line-height: 1.5;
+      margin-bottom: 1.5mm;
+    }
+    .wcard-tasting-key {
+      font-weight: 600;
+      color: #555;
+      white-space: nowrap;
+    }
+    .wcard-tasting-val {
+      color: #444;
+      font-weight: 300;
+    }
+
+    /* Divider */
+    .wcard-desc-divider {
+      width: 100%;
+      border: none;
+      border-top: 0.5px solid #ddd;
+      margin: 1.2mm 0;
+    }
+
+    /* Description */
+    .wcard-desc {
+      font-size: 6.5pt;
+      color: #555;
+      line-height: 1.55;
+      font-weight: 300;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    @media screen {
+      .card-grid-sheet {
+        margin: 10mm auto;
+        box-shadow: 0 1px 8px rgba(0,0,0,0.12);
+      }
+    }
+    @media print {
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 210mm;
+      }
+      .card-grid-sheet {
+        margin: 0;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     PAGE 1: タリスカー 10年 × 8
+     ============================================================ -->
+<div class="card-grid-sheet">
+  <div class="cut-line-h cut-h-1"></div>
+  <div class="cut-line-h cut-h-2"></div>
+  <div class="cut-line-h cut-h-3"></div>
+  <span class="scissors-mark scissors-left-1">✂</span>
+  <span class="scissors-mark scissors-left-2">✂</span>
+  <span class="scissors-mark scissors-left-3">✂</span>
+
+  <!-- 1 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">タリスカー 10年</span>
+      <span class="wcard-price">¥700（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：スカイ島（アイランズ）</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">海塩、生牡蠣、柑橘の甘み、力強いピートスモーク。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">煙るようなスモーキー、黒胡椒のスパイス、甘いモルト。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">胡椒のようなスパイシーなロングフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1830年創業、スカイ島唯一の蒸溜所。MADE BY THE SEAを体現する、海のミネラルと力強いピートが融合した唯一無二のモルト。島の荒々しい海岸線を一杯に閉じ込めた雄渾な傑作。</div>
+  </div>
+
+  <!-- 2 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">タリスカー 10年</span>
+      <span class="wcard-price">¥700（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：スカイ島（アイランズ）</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">海塩、生牡蠣、柑橘の甘み、力強いピートスモーク。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">煙るようなスモーキー、黒胡椒のスパイス、甘いモルト。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">胡椒のようなスパイシーなロングフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1830年創業、スカイ島唯一の蒸溜所。MADE BY THE SEAを体現する、海のミネラルと力強いピートが融合した唯一無二のモルト。島の荒々しい海岸線を一杯に閉じ込めた雄渾な傑作。</div>
+  </div>
+
+  <!-- 3 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">タリスカー 10年</span>
+      <span class="wcard-price">¥700（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：スカイ島（アイランズ）</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">海塩、生牡蠣、柑橘の甘み、力強いピートスモーク。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">煙るようなスモーキー、黒胡椒のスパイス、甘いモルト。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">胡椒のようなスパイシーなロングフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1830年創業、スカイ島唯一の蒸溜所。MADE BY THE SEAを体現する、海のミネラルと力強いピートが融合した唯一無二のモルト。島の荒々しい海岸線を一杯に閉じ込めた雄渾な傑作。</div>
+  </div>
+
+  <!-- 4 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">タリスカー 10年</span>
+      <span class="wcard-price">¥700（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：スカイ島（アイランズ）</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">海塩、生牡蠣、柑橘の甘み、力強いピートスモーク。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">煙るようなスモーキー、黒胡椒のスパイス、甘いモルト。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">胡椒のようなスパイシーなロングフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1830年創業、スカイ島唯一の蒸溜所。MADE BY THE SEAを体現する、海のミネラルと力強いピートが融合した唯一無二のモルト。島の荒々しい海岸線を一杯に閉じ込めた雄渾な傑作。</div>
+  </div>
+
+  <!-- 5 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">タリスカー 10年</span>
+      <span class="wcard-price">¥700（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：スカイ島（アイランズ）</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">海塩、生牡蠣、柑橘の甘み、力強いピートスモーク。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">煙るようなスモーキー、黒胡椒のスパイス、甘いモルト。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">胡椒のようなスパイシーなロングフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1830年創業、スカイ島唯一の蒸溜所。MADE BY THE SEAを体現する、海のミネラルと力強いピートが融合した唯一無二のモルト。島の荒々しい海岸線を一杯に閉じ込めた雄渾な傑作。</div>
+  </div>
+
+  <!-- 6 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">タリスカー 10年</span>
+      <span class="wcard-price">¥700（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：スカイ島（アイランズ）</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">海塩、生牡蠣、柑橘の甘み、力強いピートスモーク。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">煙るようなスモーキー、黒胡椒のスパイス、甘いモルト。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">胡椒のようなスパイシーなロングフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1830年創業、スカイ島唯一の蒸溜所。MADE BY THE SEAを体現する、海のミネラルと力強いピートが融合した唯一無二のモルト。島の荒々しい海岸線を一杯に閉じ込めた雄渾な傑作。</div>
+  </div>
+
+  <!-- 7 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">タリスカー 10年</span>
+      <span class="wcard-price">¥700（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：スカイ島（アイランズ）</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">海塩、生牡蠣、柑橘の甘み、力強いピートスモーク。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">煙るようなスモーキー、黒胡椒のスパイス、甘いモルト。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">胡椒のようなスパイシーなロングフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1830年創業、スカイ島唯一の蒸溜所。MADE BY THE SEAを体現する、海のミネラルと力強いピートが融合した唯一無二のモルト。島の荒々しい海岸線を一杯に閉じ込めた雄渾な傑作。</div>
+  </div>
+
+  <!-- 8 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">タリスカー 10年</span>
+      <span class="wcard-price">¥700（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：スカイ島（アイランズ）</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">海塩、生牡蠣、柑橘の甘み、力強いピートスモーク。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">煙るようなスモーキー、黒胡椒のスパイス、甘いモルト。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">胡椒のようなスパイシーなロングフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1830年創業、スカイ島唯一の蒸溜所。MADE BY THE SEAを体現する、海のミネラルと力強いピートが融合した唯一無二のモルト。島の荒々しい海岸線を一杯に閉じ込めた雄渾な傑作。</div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 2: マッカラン12年×2, バランタイン17年×2, グレンフィディック12年×2, シーバスリーガル ミズナラ12年×2
+     ============================================================ -->
+<div class="card-grid-sheet">
+  <div class="cut-line-h cut-h-1"></div>
+  <div class="cut-line-h cut-h-2"></div>
+  <div class="cut-line-h cut-h-3"></div>
+  <span class="scissors-mark scissors-left-1">✂</span>
+  <span class="scissors-mark scissors-left-2">✂</span>
+  <span class="scissors-mark scissors-left-3">✂</span>
+
+  <!-- 1: マッカラン 12年 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">マッカラン 12年</span>
+      <span class="wcard-price">¥1,700（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：スペイサイド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">クリーミーなバタースコッチ、アップルキャンディ、バニラカスタード。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">バニラビーンズの甘み、爽やかなレモン・オレンジ、ほのかなスパイス。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">なめらかで甘いロングフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1824年創業、スペイサイドの名門マッカラン蒸溜所。厳選したアメリカンオーク製スペインシェリー樽とアメリカンオーク樽の2種で熟成。逆三角形の優美なボトルフォルムも高貴さを体現し、初心者から上級者まで魅了するエレガントな一本。</div>
+  </div>
+
+  <!-- 2: マッカラン 12年 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">マッカラン 12年</span>
+      <span class="wcard-price">¥1,700（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：スペイサイド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">クリーミーなバタースコッチ、アップルキャンディ、バニラカスタード。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">バニラビーンズの甘み、爽やかなレモン・オレンジ、ほのかなスパイス。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">なめらかで甘いロングフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1824年創業、スペイサイドの名門マッカラン蒸溜所。厳選したアメリカンオーク製スペインシェリー樽とアメリカンオーク樽の2種で熟成。逆三角形の優美なボトルフォルムも高貴さを体現し、初心者から上級者まで魅了するエレガントな一本。</div>
+  </div>
+
+  <!-- 3: バランタイン 17年 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">バランタイン 17年</span>
+      <span class="wcard-price">¥900（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：ブレンデッド ／ 産地：スコットランド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">バニラ、オーク、完熟果実、ほのかなスモーキー。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">クリーミーで蜂蜜の甘美さ、ミルクチョコレート、オーク、ピート。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">長く気品あるフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1937年に誕生した、バランタインの誇るフラッグシップ。17年以上熟成した40種以上のモルト・グレーン原酒を精緻にブレンド。スコッチ最高のブレンデッドとして「ザ・スコッチ」の異名を持つ不朽の名作。</div>
+  </div>
+
+  <!-- 4: バランタイン 17年 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">バランタイン 17年</span>
+      <span class="wcard-price">¥900（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：ブレンデッド ／ 産地：スコットランド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">バニラ、オーク、完熟果実、ほのかなスモーキー。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">クリーミーで蜂蜜の甘美さ、ミルクチョコレート、オーク、ピート。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">長く気品あるフィニッシュ。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1937年に誕生した、バランタインの誇るフラッグシップ。17年以上熟成した40種以上のモルト・グレーン原酒を精緻にブレンド。スコッチ最高のブレンデッドとして「ザ・スコッチ」の異名を持つ不朽の名作。</div>
+  </div>
+
+  <!-- 5: グレンフィディック 12年 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">グレンフィディック 12年</span>
+      <span class="wcard-price">¥700（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：スペイサイド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">洋梨のニュアンスを伴う、はっきりと新鮮でフルーティーな香り。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">甘くフルーティー、バタースコッチ、クリーム、モルト、微かなオーク。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">長く、なめらかで穏やかな余韻。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1887年創業以来、同じ水源の湧き水を使用し、12年以上熟成させた原酒のみで造られる「シングルモルトのパイオニア」。アメリカンオーク樽とヨーロピアンシェリー樽で熟成され、世界で最も受賞歴のある逸品。</div>
+  </div>
+
+  <!-- 6: グレンフィディック 12年 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">グレンフィディック 12年</span>
+      <span class="wcard-price">¥700（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：シングルモルト ／ 産地：スペイサイド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">洋梨のニュアンスを伴う、はっきりと新鮮でフルーティーな香り。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">甘くフルーティー、バタースコッチ、クリーム、モルト、微かなオーク。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">長く、なめらかで穏やかな余韻。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">1887年創業以来、同じ水源の湧き水を使用し、12年以上熟成させた原酒のみで造られる「シングルモルトのパイオニア」。アメリカンオーク樽とヨーロピアンシェリー樽で熟成され、世界で最も受賞歴のある逸品。</div>
+  </div>
+
+  <!-- 7: シーバスリーガル ミズナラ 12年 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">シーバスリーガル ミズナラ 12年</span>
+      <span class="wcard-price">¥700（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：ブレンデッド ／ 産地：スコットランド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">オレンジと西洋ナシの甘いフルーティさ、クリーミーなタフィー、微かなナッツ。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">熟した西洋ナシと蜂蜜の甘さ、オレンジ風味の砂糖菓子とリコリスの風味。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">バランスよく、なめらかで長い余韻、ほのかなミズナラの香り。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">200年以上の歴史を持つシーバスブラザーズによるプレミアム・ブレンデッドスコッチ。日本のウイスキー愛飲家のために特別に造られた日本限定品であり、日本原産のミズナラ樽で熟成。伝統技術に日本ならではの個性を融合させた唯一無二の逸品。</div>
+  </div>
+
+  <!-- 8: シーバスリーガル ミズナラ 12年 -->
+  <div class="wcard">
+    <div class="wcard-header">
+      <span class="wcard-name">シーバスリーガル ミズナラ 12年</span>
+      <span class="wcard-price">¥700（TAX-IN）</span>
+    </div>
+    <div class="wcard-meta">種別：ブレンデッド ／ 産地：スコットランド</div>
+    <div class="wcard-tasting-label">Tasting Notes</div>
+    <div class="wcard-tasting-grid">
+      <span class="wcard-tasting-key">香り</span>
+      <span class="wcard-tasting-val">オレンジと西洋ナシの甘いフルーティさ、クリーミーなタフィー、微かなナッツ。</span>
+      <span class="wcard-tasting-key">味わい</span>
+      <span class="wcard-tasting-val">熟した西洋ナシと蜂蜜の甘さ、オレンジ風味の砂糖菓子とリコリスの風味。</span>
+      <span class="wcard-tasting-key">余韻</span>
+      <span class="wcard-tasting-val">バランスよく、なめらかで長い余韻、ほのかなミズナラの香り。</span>
+    </div>
+    <hr class="wcard-desc-divider">
+    <div class="wcard-desc">200年以上の歴史を持つシーバスブラザーズによるプレミアム・ブレンデッドスコッチ。日本のウイスキー愛飲家のために特別に造られた日本限定品であり、日本原産のミズナラ樽で熟成。伝統技術に日本ならではの個性を融合させた唯一無二の逸品。</div>
+  </div>
+</div>
+
+</body>
+</html>
