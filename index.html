@@ -134,17 +134,39 @@ button{border:none;background:none;cursor:pointer;font:inherit;color:inherit}
   cursor:pointer;transition:background .3s;border-radius:8px;
 }
 .whisky-item:active{background:rgba(212,197,169,.05)}
-.whisky-top{display:flex;justify-content:space-between;align-items:baseline}
+.whisky-top{display:flex;justify-content:space-between;align-items:baseline;gap:6px}
 .whisky-name{
   font-size:.95rem;font-weight:400;color:#e8e0d4;
-  flex:1;padding-right:12px;
+  flex:1;padding-right:4px;display:flex;align-items:baseline;flex-wrap:wrap;gap:4px;
 }
-.whisky-name .tag{
-  display:inline-block;font-size:.62rem;padding:1px 6px;
+.whisky-name::after{
+  content:'›';font-size:1rem;color:#756a5e;margin-left:4px;
+  flex-shrink:0;transition:transform .3s;
+}
+.whisky-item:hover .whisky-name::after{transform:translateX(3px)}
+.whisky-name .tag,
+.modal-tags .tag{
+  display:inline-block;font-size:.62rem;padding:2px 7px;
   border:1px solid rgba(212,197,169,.2);border-radius:10px;
-  color:#b5aa9a;margin-left:6px;vertical-align:middle;
-  position:relative;top:-1px;
+  color:#b5aa9a;vertical-align:middle;
+  position:relative;top:0;white-space:nowrap;
 }
+.whisky-name .tag:first-of-type{ margin-left:6px; }
+.modal-tags{
+  display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 14px;
+}
+.whisky-name .tag.f-smoky,.whisky-name .tag.f-peaty,
+.modal-tags .tag.f-smoky,.modal-tags .tag.f-peaty{border-color:rgba(120,100,60,.5);color:#c4a87a;background:rgba(80,60,20,.2)}
+.whisky-name .tag.f-fruity,
+.modal-tags .tag.f-fruity{border-color:rgba(80,140,80,.4);color:#9aba8a;background:rgba(40,80,40,.15)}
+.whisky-name .tag.f-floral,
+.modal-tags .tag.f-floral{border-color:rgba(180,100,140,.4);color:#c48aaa;background:rgba(100,40,70,.12)}
+.whisky-name .tag.f-highball,
+.modal-tags .tag.f-highball{border-color:rgba(80,120,170,.4);color:#8aaacc;background:rgba(30,60,100,.15)}
+.whisky-name .tag.f-rich,.whisky-name .tag.f-sherry,
+.modal-tags .tag.f-rich,.modal-tags .tag.f-sherry{border-color:rgba(150,60,40,.4);color:#c4806a;background:rgba(80,30,20,.15)}
+.whisky-name .tag.f-spicy,
+.modal-tags .tag.f-spicy{border-color:rgba(170,80,40,.4);color:#cc9060;background:rgba(90,40,10,.15)}
 .whisky-price-inline{
   font-family:'Noto Serif JP',serif;font-size:.92rem;
   color:#b0a895;white-space:nowrap;
@@ -201,6 +223,9 @@ button{border:none;background:none;cursor:pointer;font:inherit;color:inherit}
 .modal-price{
   font-family:'Noto Serif JP',serif;
   font-size:1.07rem;color:#b0a895;margin-bottom:16px;
+}
+.modal-price .tax-label{
+  font-size:.75rem;margin-left:2px;
 }
 .modal-meta{
   display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;
@@ -273,12 +298,15 @@ button{border:none;background:none;cursor:pointer;font:inherit;color:inherit}
 .set-menu-price{
   font-family:'Noto Serif JP',serif;color:#b0a895;font-size:.95rem;
 }
+.set-menu-price .tax-label,
+.whisky-price-inline .tax-label{
+  font-size:.70rem;margin-left:2px;
+}
 .set-menu-sub{font-size:.75rem;color:#a59a8d;margin-top:4px}
 .set-menu-detail{
-  display:none;margin-top:16px;padding-top:14px;
+  display:block;margin-top:16px;padding-top:14px;
   border-top:1px solid rgba(212,197,169,.08);
 }
-.set-menu-detail.open{display:block}
 .set-menu-detail p{font-size:.85rem;color:#b0a895;line-height:1.8;margin-bottom:6px}
 .set-menu-detail .included{
   font-size:.79rem;color:#a59a8d;line-height:1.8;
@@ -290,12 +318,6 @@ button{border:none;background:none;cursor:pointer;font:inherit;color:inherit}
 .set-menu-detail .included li::before{
   content:'・';color:#857a6e;
 }
-.set-toggle{
-  font-size:.67rem;color:#a59a8d;display:flex;align-items:center;gap:4px;
-  margin-top:8px;
-}
-.set-toggle .chevron{transition:transform .3s;display:inline-block}
-.set-menu-card.expanded .set-toggle .chevron{transform:rotate(180deg)}
 
 /* ======================================
    8. FOOD & NON-ALCOHOL
@@ -367,10 +389,14 @@ button{border:none;background:none;cursor:pointer;font:inherit;color:inherit}
   <div class="nav-bar-inner">
     <button class="nav-tab active" data-target="sec-system">ご案内</button>
     <button class="nav-tab" data-target="sec-whisky">ウイスキー</button>
+    <button class="nav-tab whisky-region-tab" data-target="sec-w-speyside">スペイサイド</button>
+    <button class="nav-tab whisky-region-tab" data-target="sec-w-highland">ハイランド</button>
+    <button class="nav-tab whisky-region-tab" data-target="sec-w-islay">アイラ</button>
+    <button class="nav-tab whisky-region-tab" data-target="sec-w-islands">アイランズ</button>
+    <button class="nav-tab whisky-region-tab" data-target="sec-w-lowland">ローランド</button>
+    <button class="nav-tab whisky-region-tab" data-target="sec-w-campbeltown">キャンベルタウン</button>
+    <button class="nav-tab whisky-region-tab" data-target="sec-w-blended">ブレンデッド</button>
     <button class="nav-tab" data-target="sec-set">セットメニュー</button>
-    <button class="nav-tab" data-target="sec-special">スペシャル</button>
-    <button class="nav-tab" data-target="sec-food">フード</button>
-    <button class="nav-tab" data-target="sec-nonalc">ノンアルコール</button>
   </div>
 </nav>
 
@@ -385,18 +411,12 @@ button{border:none;background:none;cursor:pointer;font:inherit;color:inherit}
   </div>
 
   <div class="system-card">
-    <div class="system-title">お通し（テーブルチャージ）</div>
-    <div class="system-row"><span class="label">お通し</span><span class="price">¥500</span></div>
-  </div>
-
-  <div class="system-card">
     <div class="system-title">ウイスキーの飲み方</div>
-    <div class="system-note" style="margin-bottom:10px;">当店のウイスキーはすべて1杯30mlでのご提供です。<br>お好みの飲み方をお選びください。</div>
-    <div class="system-row"><span class="label">ストレート</span><span class="price">＋¥0</span></div>
-    <div class="system-row"><span class="label">水割り</span><span class="price">＋¥0</span></div>
-    <div class="system-row"><span class="label">お湯割り</span><span class="price">＋¥0</span></div>
-    <div class="system-row"><span class="label">炭酸割り（ハイボール）</span><span class="price">＋¥100</span></div>
-    <div class="system-row"><span class="label">オンザロック</span><span class="price">＋¥100</span></div>
+    <div class="system-note" style="margin-bottom:10px;">シングル：1杯30mlでのご提供です。<br>お好みの飲み方をお選びください。</div>
+    <div class="system-row"><span class="label">ストレート</span></div>
+    <div class="system-row"><span class="label">水割り</span></div>
+    <div class="system-row"><span class="label">炭酸割り（ハイボール）</span></div>
+    <div class="system-row"><span class="label">オンザロック</span></div>
   </div>
 
   <div class="system-card">
@@ -415,293 +435,297 @@ button{border:none;background:none;cursor:pointer;font:inherit;color:inherit}
     <div class="section-line"></div>
   </div>
 
-  <!-- ¥600–¥700 -->
-  <div class="price-band">
-    <div class="price-band-title">¥600 – ¥700</div>
+  <!-- ======== スペイサイド ======== -->
+  <div class="price-band" id="sec-w-speyside">
+    <div class="price-band-title">— Speyside　スペイサイド —</div>
 
-    <div class="whisky-item" onclick="openModal('dewar-wl')">
+    <div class="whisky-item" onclick="openModal('aberlour-abunadh')">
       <div class="whisky-top">
-        <div class="whisky-name">デュワーズ ホワイトラベル <span class="tag">ブレンデッド</span></div>
-        <span class="whisky-price-inline">¥600</span>
+        <div class="whisky-name">アベラワー アブーナ <span class="tag">シェリー</span><span class="tag">リッチ</span></div>
+        <span class="whisky-price-inline">¥1,400<span class="tax-label">（Tax-in）</span></span>
       </div>
-      <div class="whisky-origin">スコットランド</div>
-      <div class="detail-badge">テイスティングノートを見る</div>
-    </div>
-
-    <div class="whisky-item" onclick="openModal('chivas12')">
-      <div class="whisky-top">
-        <div class="whisky-name">シーバスリーガル ミズナラ 12年 <span class="tag">ブレンデッド</span></div>
-        <span class="whisky-price-inline">¥700</span>
-      </div>
-      <div class="whisky-origin">スコットランド</div>
+      <div class="whisky-origin">スペイサイド</div>
       <div class="detail-badge">テイスティングノートを見る</div>
     </div>
 
     <div class="whisky-item" onclick="openModal('glenfiddich12')">
       <div class="whisky-top">
-        <div class="whisky-name">グレンフィディック 12年 <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥700</span>
+        <div class="whisky-name">グレンフィディック 12年 <span class="tag">フルーティ</span><span class="tag">ハイボール向き</span></div>
+        <span class="whisky-price-inline">¥700<span class="tax-label">（Tax-in）</span></span>
       </div>
       <div class="whisky-origin">スペイサイド</div>
-      <div class="detail-badge">テイスティングノートを見る</div>
-    </div>
-
-    <div class="whisky-item" onclick="openModal('talisker10')">
-      <div class="whisky-top">
-        <div class="whisky-name">タリスカー 10年 <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥700</span>
-      </div>
-      <div class="whisky-origin">スカイ島（アイランズ）</div>
-      <div class="detail-badge">テイスティングノートを見る</div>
-    </div>
-  </div>
-
-  <!-- ¥800–¥900 -->
-  <div class="price-band">
-    <div class="price-band-title">¥800 – ¥900</div>
-
-    <div class="whisky-item" onclick="openModal('auchentoshan12')">
-      <div class="whisky-top">
-        <div class="whisky-name">オーヘントッシャン 12年 <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥800</span>
-      </div>
-      <div class="whisky-origin">ローランド</div>
-      <div class="detail-badge">テイスティングノートを見る</div>
-    </div>
-
-    <div class="whisky-item" onclick="openModal('glendronach12')">
-      <div class="whisky-top">
-        <div class="whisky-name">グレンドロナック 12年 <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥800</span>
-      </div>
-      <div class="whisky-origin">ハイランド</div>
-      <div class="detail-badge">テイスティングノートを見る</div>
-    </div>
-
-    <div class="whisky-item" onclick="openModal('lagavulin8')">
-      <div class="whisky-top">
-        <div class="whisky-name">ラガヴーリン 8年 <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥800</span>
-      </div>
-      <div class="whisky-origin">アイラ島</div>
-      <div class="detail-badge">テイスティングノートを見る</div>
-    </div>
-
-    <div class="whisky-item" onclick="openModal('ardbeg10')">
-      <div class="whisky-top">
-        <div class="whisky-name">アードベッグ 10年 <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥900</span>
-      </div>
-      <div class="whisky-origin">アイラ島</div>
-      <div class="detail-badge">テイスティングノートを見る</div>
-    </div>
-
-    <div class="whisky-item" onclick="openModal('ballantine17')">
-      <div class="whisky-top">
-        <div class="whisky-name">バランタイン 17年 <span class="tag">ブレンデッド</span></div>
-        <span class="whisky-price-inline">¥900</span>
-      </div>
-      <div class="whisky-origin">スコットランド</div>
-      <div class="detail-badge">テイスティングノートを見る</div>
-    </div>
-
-    <div class="whisky-item" onclick="openModal('dalwhinnie15')">
-      <div class="whisky-top">
-        <div class="whisky-name">ダルウィニー 15年 <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥900</span>
-      </div>
-      <div class="whisky-origin">ハイランド</div>
-      <div class="detail-badge">テイスティングノートを見る</div>
-    </div>
-
-    <div class="whisky-item" onclick="openModal('lindores')">
-      <div class="whisky-top">
-        <div class="whisky-name">リンドーズ シングルモルト <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥900</span>
-      </div>
-      <div class="whisky-origin">ローランド</div>
-      <div class="detail-badge">テイスティングノートを見る</div>
-    </div>
-  </div>
-
-  <!-- ¥1,000–¥1,200 -->
-  <div class="price-band">
-    <div class="price-band-title">¥1,000 – ¥1,200</div>
-
-    <div class="whisky-item" onclick="openModal('mortlach12')">
-      <div class="whisky-top">
-        <div class="whisky-name">モートラック 12年 <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥1,000</span>
-      </div>
-      <div class="whisky-origin">スペイサイド</div>
-      <div class="detail-badge">テイスティングノートを見る</div>
-    </div>
-
-    <div class="whisky-item" onclick="openModal('arran-qc')">
-      <div class="whisky-top">
-        <div class="whisky-name">アラン クォーターカスク <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥1,100</span>
-      </div>
-      <div class="whisky-origin">アラン島（アイランズ）</div>
-      <div class="detail-badge">テイスティングノートを見る</div>
-    </div>
-
-    <div class="whisky-item" onclick="openModal('bunnahabhain12')">
-      <div class="whisky-top">
-        <div class="whisky-name">ブナハーブン 12年 <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥1,100</span>
-      </div>
-      <div class="whisky-origin">アイラ島</div>
-      <div class="detail-badge">テイスティングノートを見る</div>
-    </div>
-
-    <div class="whisky-item" onclick="openModal('royalbrackla12')">
-      <div class="whisky-top">
-        <div class="whisky-name">ロイヤルブックラ 12年 <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥1,100</span>
-      </div>
-      <div class="whisky-origin">ハイランド</div>
-      <div class="detail-badge">テイスティングノートを見る</div>
-    </div>
-
-    <div class="whisky-item" onclick="openModal('oban14')">
-      <div class="whisky-top">
-        <div class="whisky-name">オーバン 14年 <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥1,200</span>
-      </div>
-      <div class="whisky-origin">ハイランド</div>
-      <div class="detail-badge">テイスティングノートを見る</div>
-    </div>
-
-    <div class="whisky-item" onclick="openModal('lagavulin16')">
-      <div class="whisky-top">
-        <div class="whisky-name">ラガヴーリン 16年 <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥1,200</span>
-      </div>
-      <div class="whisky-origin">アイラ島</div>
       <div class="detail-badge">テイスティングノートを見る</div>
     </div>
 
     <div class="whisky-item" onclick="openModal('glenlivet12')">
       <div class="whisky-top">
-        <div class="whisky-name">グレンリベット 12年 イリシットスティル <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥1,200</span>
+        <div class="whisky-name">グレンリベット 12年 イリシットスティル <span class="tag">フルーティ</span><span class="tag">華やか</span></div>
+        <span class="whisky-price-inline">¥1,200<span class="tax-label">（Tax-in）</span></span>
       </div>
       <div class="whisky-origin">スペイサイド</div>
-      <div class="detail-badge">テイスティングノートを見る</div>
-    </div>
-  </div>
-
-  <!-- ¥1,300–¥1,400 -->
-  <div class="price-band">
-    <div class="price-band-title">¥1,300 – ¥1,400</div>
-
-    <div class="whisky-item" onclick="openModal('ardbeg-corry')">
-      <div class="whisky-top">
-        <div class="whisky-name">アードベッグ コリーヴレッカン <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥1,300</span>
-      </div>
-      <div class="whisky-origin">アイラ島</div>
-      <div class="detail-badge">テイスティングノートを見る</div>
-    </div>
-
-    <div class="whisky-item" onclick="openModal('chivas18')">
-      <div class="whisky-top">
-        <div class="whisky-name">シーバスリーガル 18年 ミズナラ <span class="tag">ブレンデッド</span></div>
-        <span class="whisky-price-inline">¥1,400</span>
-      </div>
-      <div class="whisky-origin">スコットランド</div>
-      <div class="detail-badge">テイスティングノートを見る</div>
-    </div>
-
-    <div class="whisky-item" onclick="openModal('aberlour-abunadh')">
-      <div class="whisky-top">
-        <div class="whisky-name">アベラワー アブーナ <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥1,400</span>
-      </div>
-      <div class="whisky-origin">スペイサイド</div>
-      <div class="detail-badge">テイスティングノートを見る</div>
-    </div>
-  </div>
-
-  <!-- ¥1,600–¥2,000 -->
-  <div class="price-band">
-    <div class="price-band-title">¥1,600 – ¥2,000</div>
-
-    <div class="whisky-item" onclick="openModal('longrow')">
-      <div class="whisky-top">
-        <div class="whisky-name">ロングロウ <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥1,700</span>
-      </div>
-      <div class="whisky-origin">キャンベルタウン</div>
-      <div class="detail-badge">テイスティングノートを見る</div>
-    </div>
-
-    <div class="whisky-item" onclick="openModal('bowmore15')">
-      <div class="whisky-top">
-        <div class="whisky-name">ボウモア 15年 <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥1,600</span>
-      </div>
-      <div class="whisky-origin">アイラ島</div>
-      <div class="detail-badge">テイスティングノートを見る</div>
-    </div>
-
-    <div class="whisky-item" onclick="openModal('ballantine17tr')">
-      <div class="whisky-top">
-        <div class="whisky-name">バランタイン 17年 トリビュートリリース <span class="tag">ブレンデッド</span></div>
-        <span class="whisky-price-inline">¥1,600</span>
-      </div>
-      <div class="whisky-origin">スコットランド</div>
       <div class="detail-badge">テイスティングノートを見る</div>
     </div>
 
     <div class="whisky-item" onclick="openModal('macallan12')">
       <div class="whisky-top">
-        <div class="whisky-name">マッカラン 12年 <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥1,700</span>
+        <div class="whisky-name">マッカラン 12年 <span class="tag">フルーティ</span><span class="tag">華やか</span></div>
+        <span class="whisky-price-inline">¥1,700<span class="tax-label">（Tax-in）</span></span>
       </div>
       <div class="whisky-origin">スペイサイド</div>
       <div class="detail-badge">テイスティングノートを見る</div>
     </div>
 
-    <div class="whisky-item" onclick="openModal('highlandpark18')">
+    <div class="whisky-item" onclick="openModal('mortlach12')">
       <div class="whisky-top">
-        <div class="whisky-name">ハイランドパーク 18年 <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥1,800</span>
+        <div class="whisky-name">モートラック 12年 <span class="tag">スモーキー</span><span class="tag">リッチ</span></div>
+        <span class="whisky-price-inline">¥1,000<span class="tax-label">（Tax-in）</span></span>
       </div>
-      <div class="whisky-origin">オークニー諸島（アイランズ）</div>
+      <div class="whisky-origin">スペイサイド</div>
+      <div class="detail-badge">テイスティングノートを見る</div>
+    </div>
+  </div>
+
+  <!-- ======== ハイランド ======== -->
+  <div class="price-band" id="sec-w-highland">
+    <div class="price-band-title">— Highland　ハイランド —</div>
+
+    <div class="whisky-item" onclick="openModal('oban14')">
+      <div class="whisky-top">
+        <div class="whisky-name">オーバン 14年 <span class="tag">フルーティ</span><span class="tag">ハイボール向き</span></div>
+        <span class="whisky-price-inline">¥1,200<span class="tax-label">（Tax-in）</span></span>
+      </div>
+      <div class="whisky-origin">ハイランド</div>
       <div class="detail-badge">テイスティングノートを見る</div>
     </div>
 
-    <div class="whisky-item" onclick="openModal('laphroaig-lore')">
+    <div class="whisky-item" onclick="openModal('glendronach12')">
       <div class="whisky-top">
-        <div class="whisky-name">ラフロイグ ロア <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥1,800</span>
+        <div class="whisky-name">グレンドロナック 12年 <span class="tag">シェリー</span><span class="tag">リッチ</span></div>
+        <span class="whisky-price-inline">¥800<span class="tax-label">（Tax-in）</span></span>
+      </div>
+      <div class="whisky-origin">ハイランド</div>
+      <div class="detail-badge">テイスティングノートを見る</div>
+    </div>
+
+    <div class="whisky-item" onclick="openModal('dalwhinnie15')">
+      <div class="whisky-top">
+        <div class="whisky-name">ダルウィニー 15年 <span class="tag">フルーティ</span><span class="tag">ハイボール向き</span></div>
+        <span class="whisky-price-inline">¥900<span class="tax-label">（Tax-in）</span></span>
+      </div>
+      <div class="whisky-origin">ハイランド</div>
+      <div class="detail-badge">テイスティングノートを見る</div>
+    </div>
+
+    <div class="whisky-item" onclick="openModal('royalbrackla12')">
+      <div class="whisky-top">
+        <div class="whisky-name">ロイヤルブラックラ 12年 <span class="tag">フルーティ</span><span class="tag">華やか</span></div>
+        <span class="whisky-price-inline">¥1,100<span class="tax-label">（Tax-in）</span></span>
+      </div>
+      <div class="whisky-origin">ハイランド</div>
+      <div class="detail-badge">テイスティングノートを見る</div>
+    </div>
+  </div>
+
+  <!-- ======== アイラ ======== -->
+  <div class="price-band" id="sec-w-islay">
+    <div class="price-band-title">— Islay　アイラ —</div>
+
+    <div class="whisky-item" onclick="openModal('ardbeg10')">
+      <div class="whisky-top">
+        <div class="whisky-name">アードベッグ 10年 <span class="tag">スモーキー</span><span class="tag">ハイボール向き</span></div>
+        <span class="whisky-price-inline">¥900<span class="tax-label">（Tax-in）</span></span>
       </div>
       <div class="whisky-origin">アイラ島</div>
       <div class="detail-badge">テイスティングノートを見る</div>
     </div>
 
-    <div class="whisky-item" onclick="openModal('dewars21')">
+    <div class="whisky-item" onclick="openModal('ardbeg-corry')">
       <div class="whisky-top">
-        <div class="whisky-name">デュワーズ ダブルダブル 21年 <span class="tag">ブレンデッド</span></div>
-        <span class="whisky-price-inline">¥2,000</span>
+        <div class="whisky-name">アードベッグ コリーヴレッカン <span class="tag">スモーキー</span><span class="tag">スパイシー</span></div>
+        <span class="whisky-price-inline">¥1,300<span class="tax-label">（Tax-in）</span></span>
       </div>
-      <div class="whisky-origin">スコットランド</div>
+      <div class="whisky-origin">アイラ島</div>
+      <div class="detail-badge">テイスティングノートを見る</div>
+    </div>
+
+    <div class="whisky-item" onclick="openModal('bunnahabhain12')">
+      <div class="whisky-top">
+        <div class="whisky-name">ブナハーブン 12年 <span class="tag">フルーティ</span><span class="tag">ハイボール向き</span></div>
+        <span class="whisky-price-inline">¥1,100<span class="tax-label">（Tax-in）</span></span>
+      </div>
+      <div class="whisky-origin">アイラ島</div>
+      <div class="detail-badge">テイスティングノートを見る</div>
+    </div>
+
+    <div class="whisky-item" onclick="openModal('bowmore15')">
+      <div class="whisky-top">
+        <div class="whisky-name">ボウモア 15年 <span class="tag">スモーキー</span><span class="tag">フルーティ</span></div>
+        <span class="whisky-price-inline">¥1,600<span class="tax-label">（Tax-in）</span></span>
+      </div>
+      <div class="whisky-origin">アイラ島</div>
+      <div class="detail-badge">テイスティングノートを見る</div>
+    </div>
+
+    <div class="whisky-item" onclick="openModal('lagavulin8')">
+      <div class="whisky-top">
+        <div class="whisky-name">ラガヴーリン 8年 <span class="tag">スモーキー</span><span class="tag">ハイボール向き</span></div>
+        <span class="whisky-price-inline">¥800<span class="tax-label">（Tax-in）</span></span>
+      </div>
+      <div class="whisky-origin">アイラ島</div>
+      <div class="detail-badge">テイスティングノートを見る</div>
+    </div>
+
+    <div class="whisky-item" onclick="openModal('lagavulin16')">
+      <div class="whisky-top">
+        <div class="whisky-name">ラガヴーリン 16年 <span class="tag">スモーキー</span><span class="tag">ピーティ</span></div>
+        <span class="whisky-price-inline">¥1,200<span class="tax-label">（Tax-in）</span></span>
+      </div>
+      <div class="whisky-origin">アイラ島</div>
+      <div class="detail-badge">テイスティングノートを見る</div>
+    </div>
+
+    <div class="whisky-item" onclick="openModal('laphroaig-lore')">
+      <div class="whisky-top">
+        <div class="whisky-name">ラフロイグ ロア <span class="tag">スモーキー</span><span class="tag">ピーティ</span></div>
+        <span class="whisky-price-inline">¥1,800<span class="tax-label">（Tax-in）</span></span>
+      </div>
+      <div class="whisky-origin">アイラ島</div>
       <div class="detail-badge">テイスティングノートを見る</div>
     </div>
   </div>
 
-  <!-- ¥3,000–¥3,500 -->
-  <div class="price-band">
-    <div class="price-band-title">¥3,000 – ¥3,500</div>
+  <!-- ======== アイランズ ======== -->
+    <div class="price-band-title">— Islands　アイランズ —</div>
+
+    <div class="whisky-item" onclick="openModal('arran-qc')">
+      <div class="whisky-top">
+        <div class="whisky-name">アラン クォーターカスク <span class="tag">フルーティ</span><span class="tag">スパイシー</span></div>
+        <span class="whisky-price-inline">¥1,100<span class="tax-label">（Tax-in）</span></span>
+      </div>
+      <div class="whisky-origin">アラン島（アイランズ）</div>
+      <div class="detail-badge">テイスティングノートを見る</div>
+    </div>
+
+    <div class="whisky-item" onclick="openModal('talisker10')">
+      <div class="whisky-top">
+        <div class="whisky-name">タリスカー 10年 <span class="tag">スモーキー</span><span class="tag">ハイボール向き</span></div>
+        <span class="whisky-price-inline">¥700<span class="tax-label">（Tax-in）</span></span>
+      </div>
+      <div class="whisky-origin">スカイ島（アイランズ）</div>
+      <div class="detail-badge">テイスティングノートを見る</div>
+    </div>
+
+    <div class="whisky-item" onclick="openModal('highlandpark18')">
+      <div class="whisky-top">
+        <div class="whisky-name">ハイランドパーク 18年 <span class="tag">スモーキー</span><span class="tag">フルーティ</span></div>
+        <span class="whisky-price-inline">¥1,800<span class="tax-label">（Tax-in）</span></span>
+      </div>
+      <div class="whisky-origin">オークニー諸島（アイランズ）</div>
+      <div class="detail-badge">テイスティングノートを見る</div>
+    </div>
+  </div>
+
+  <!-- ======== ローランド ======== -->
+  <div class="price-band" id="sec-w-lowland">
+    <div class="price-band-title">— Lowland　ローランド —</div>
+
+    <div class="whisky-item" onclick="openModal('auchentoshan12')">
+      <div class="whisky-top">
+        <div class="whisky-name">オーヘントッシャン 12年 <span class="tag">フルーティ</span><span class="tag">華やか</span></div>
+        <span class="whisky-price-inline">¥800<span class="tax-label">（Tax-in）</span></span>
+      </div>
+      <div class="whisky-origin">ローランド</div>
+      <div class="detail-badge">テイスティングノートを見る</div>
+    </div>
+
+    <div class="whisky-item" onclick="openModal('lindores')">
+      <div class="whisky-top">
+        <div class="whisky-name">リンドーズ シングルモルト <span class="tag">フルーティ</span><span class="tag">華やか</span></div>
+        <span class="whisky-price-inline">¥900<span class="tax-label">（Tax-in）</span></span>
+      </div>
+      <div class="whisky-origin">ローランド</div>
+      <div class="detail-badge">テイスティングノートを見る</div>
+    </div>
+  </div>
+
+  <!-- ======== キャンベルタウン ======== -->
+  <div class="price-band" id="sec-w-campbeltown">
+    <div class="price-band-title">— Campbeltown　キャンベルタウン —</div>
 
     <div class="whisky-item" onclick="openModal('springbank10')">
       <div class="whisky-top">
-        <div class="whisky-name">スプリングバンク 10年 <span class="tag">シングルモルト</span></div>
-        <span class="whisky-price-inline">¥3,200</span>
+        <div class="whisky-name">スプリングバンク 10年 <span class="tag">フルーティ</span><span class="tag">スモーキー</span></div>
+        <span class="whisky-price-inline">¥3,200<span class="tax-label">（Tax-in）</span></span>
       </div>
       <div class="whisky-origin">キャンベルタウン</div>
+      <div class="detail-badge">テイスティングノートを見る</div>
+    </div>
+
+    <div class="whisky-item" onclick="openModal('longrow')">
+      <div class="whisky-top">
+        <div class="whisky-name">ロングロウ <span class="tag">スモーキー</span><span class="tag">リッチ</span></div>
+        <span class="whisky-price-inline">¥1,700<span class="tax-label">（Tax-in）</span></span>
+      </div>
+      <div class="whisky-origin">キャンベルタウン</div>
+      <div class="detail-badge">テイスティングノートを見る</div>
+    </div>
+  </div>
+
+  <!-- ======== ブレンデッド ======== -->
+  <div class="price-band" id="sec-w-blended">
+    <div class="price-band-title">— Blended　ブレンデッド —</div>
+
+    <div class="whisky-item" onclick="openModal('chivas12')">
+      <div class="whisky-top">
+        <div class="whisky-name">シーバスリーガル ミズナラ 12年 <span class="tag">フルーティ</span><span class="tag">華やか</span></div>
+        <span class="whisky-price-inline">¥700<span class="tax-label">（Tax-in）</span></span>
+      </div>
+      <div class="whisky-origin">スコットランド</div>
+      <div class="detail-badge">テイスティングノートを見る</div>
+    </div>
+
+    <div class="whisky-item" onclick="openModal('chivas18')">
+      <div class="whisky-top">
+        <div class="whisky-name">シーバスリーガル 18年 ミズナラ <span class="tag">フルーティ</span><span class="tag">華やか</span></div>
+        <span class="whisky-price-inline">¥1,400<span class="tax-label">（Tax-in）</span></span>
+      </div>
+      <div class="whisky-origin">スコットランド</div>
+      <div class="detail-badge">テイスティングノートを見る</div>
+    </div>
+
+    <div class="whisky-item" onclick="openModal('dewars21')">
+      <div class="whisky-top">
+        <div class="whisky-name">デュワーズ ダブルダブル 21年 <span class="tag">フルーティ</span><span class="tag">リッチ</span></div>
+        <span class="whisky-price-inline">¥2,000<span class="tax-label">（Tax-in）</span></span>
+      </div>
+      <div class="whisky-origin">スコットランド</div>
+      <div class="detail-badge">テイスティングノートを見る</div>
+    </div>
+
+    <div class="whisky-item" onclick="openModal('dewar-wl')">
+      <div class="whisky-top">
+        <div class="whisky-name">デュワーズ ホワイトラベル <span class="tag">ハイボール向き</span><span class="tag">フルーティ</span></div>
+        <span class="whisky-price-inline">¥600<span class="tax-label">（Tax-in）</span></span>
+      </div>
+      <div class="whisky-origin">スコットランド</div>
+      <div class="detail-badge">テイスティングノートを見る</div>
+    </div>
+
+    <div class="whisky-item" onclick="openModal('ballantine17')">
+      <div class="whisky-top">
+        <div class="whisky-name">バランタイン 17年 <span class="tag">フルーティ</span><span class="tag">ハイボール向き</span></div>
+        <span class="whisky-price-inline">¥900<span class="tax-label">（Tax-in）</span></span>
+      </div>
+      <div class="whisky-origin">スコットランド</div>
+      <div class="detail-badge">テイスティングノートを見る</div>
+    </div>
+
+    <div class="whisky-item" onclick="openModal('ballantine17tr')">
+      <div class="whisky-top">
+        <div class="whisky-name">バランタイン 17年 トリビュートリリース <span class="tag">フルーティ</span><span class="tag">リッチ</span></div>
+        <span class="whisky-price-inline">¥1,600<span class="tax-label">（Tax-in）</span></span>
+      </div>
+      <div class="whisky-origin">スコットランド</div>
       <div class="detail-badge">テイスティングノートを見る</div>
     </div>
   </div>
@@ -721,34 +745,32 @@ button{border:none;background:none;cursor:pointer;font:inherit;color:inherit}
   <!-- 周遊キット -->
   <div class="price-band-title">— 周遊キット —</div>
 
-  <div class="set-menu-card" onclick="toggleSet(this)">
+  <div class="set-menu-card">
     <div class="set-menu-head">
       <span class="set-menu-name">スコットランド周遊キット 旅程A</span>
-      <span class="set-menu-price">¥2,500</span>
+      <span class="set-menu-price">¥2,500<span class="tax-label">（Tax-in）</span></span>
     </div>
     <div class="set-menu-sub">果樹園の風、アイラの焚火、北海のヘザー——スコットランドの三つの風土を一度に駆け抜ける。</div>
-    <div class="set-toggle"><span class="chevron">▼</span> 詳しく見る</div>
     <div class="set-menu-detail">
       <div class="included">
         <li>グレンフィディック 12年（スペイサイド）</li>
-        <li>ラガヴーリン 8年（アイラ島）</li>
+        <li>アードベッグ 10年（アイラ島）</li>
         <li>ハイランドパーク 18年（オークニー諸島）</li>
       </div>
     </div>
   </div>
 
-  <div class="set-menu-card" onclick="toggleSet(this)">
+  <div class="set-menu-card">
     <div class="set-menu-head">
       <span class="set-menu-name">スコットランド周遊キット 旅程B</span>
-      <span class="set-menu-price">¥2,500</span>
+      <span class="set-menu-price">¥2,500<span class="tax-label">（Tax-in）</span></span>
     </div>
-    <div class="set-menu-sub">東の王宮、南の修道院、島の甘風——穏やかなるスコットランドのもう半分を、三杯で辿る。</div>
-    <div class="set-toggle"><span class="chevron">▼</span> 詳しく見る</div>
+    <div class="set-menu-sub">王室の栄光、南の清澄、半島の狼煙——ハイランドからローランドを経てキャンベルタウンへ、スコットランドを縦断する三杯。</div>
     <div class="set-menu-detail">
       <div class="included">
-        <li>ロイヤルブックラ 12年（ハイランド）</li>
-        <li>リンドーズ シングルモルト（ローランド）</li>
+        <li>ロイヤルブラックラ 12年（ハイランド）</li>
         <li>オーヘントッシャン 12年（ローランド）</li>
+        <li>ロングロウ（キャンベルタウン）</li>
       </div>
     </div>
   </div>
@@ -756,98 +778,46 @@ button{border:none;background:none;cursor:pointer;font:inherit;color:inherit}
   <p style="font-size:.72rem;color:#a59a8d;text-align:center;margin:-8px 0 24px;">※ 旅程A＋Bでスコットランド多地方を制覇！</p>
 
   <!-- 王道キット -->
-  <div class="price-band-title">— 王道キット —</div>
-
-  <div class="set-menu-card" onclick="toggleSet(this)">
-    <div class="set-menu-head">
-      <span class="set-menu-name">スコッチの王道キット（初級）</span>
-      <span class="set-menu-price">¥1,800</span>
-    </div>
-    <div class="set-menu-sub">"ザ・スコッチ"、モルトの開拓者、海のスパイス——スコッチの三大金字塔をこの一皿で。</div>
-    <div class="set-toggle"><span class="chevron">▼</span> 詳しく見る</div>
-    <div class="set-menu-detail">
-      <div class="included">
-        <li>バランタイン 17年（ブレンデッド）</li>
-        <li>グレンフィディック 12年（スペイサイド）</li>
-        <li>タリスカー 10年（スカイ島）</li>
-      </div>
-    </div>
-  </div>
-
-  <div class="set-menu-card" onclick="toggleSet(this)">
-    <div class="set-menu-head">
-      <span class="set-menu-name">スコッチの王道キット（中級）</span>
-      <span class="set-menu-price">¥2,800</span>
-    </div>
-    <div class="set-menu-sub">ミズナラの和、シェリーの名門、アイラの女王——初級を知った舌が次に出会うべき三杯。</div>
-    <div class="set-toggle"><span class="chevron">▼</span> 詳しく見る</div>
-    <div class="set-menu-detail">
-      <div class="included">
-        <li>シーバスリーガル ミズナラ 12年（ブレンデッド）</li>
-        <li>マッカラン 12年（スペイサイド）</li>
-        <li>ボウモア 15年（アイラ島）</li>
-      </div>
-    </div>
-  </div>
-
   <!-- テーマ別キット -->
   <div class="price-band-title">— テーマ別キット —</div>
 
-  <div class="set-menu-card" onclick="toggleSet(this)">
+
+  <div class="set-menu-card">
     <div class="set-menu-head">
       <span class="set-menu-name">荒々しい海を感じるアイラ島キット</span>
-      <span class="set-menu-price">¥2,800</span>
+      <span class="set-menu-price">¥2,500<span class="tax-label">（Tax-in）</span></span>
     </div>
     <div class="set-menu-sub">煙に包まれた二つの巨人と、潮風だけを纏う異端児——同じ島が魅せる三つの海の表情。</div>
-    <div class="set-toggle"><span class="chevron">▼</span> 詳しく見る</div>
     <div class="set-menu-detail">
       <div class="included">
         <li>ラガヴーリン 16年（アイラ島）</li>
-        <li>アードベッグ コリーヴレッカン（アイラ島）</li>
+        <li>アードベッグ 10年（アイラ島）</li>
         <li>ブナハーブン 12年（アイラ島）</li>
       </div>
     </div>
   </div>
 
-  <div class="set-menu-card" onclick="toggleSet(this)">
+  <div class="set-menu-card">
     <div class="set-menu-head">
       <span class="set-menu-name">フルーティなお花畑へ誘うキット</span>
-      <span class="set-menu-price">¥3,500</span>
+      <span class="set-menu-price">¥3,200<span class="tax-label">（Tax-in）</span></span>
     </div>
     <div class="set-menu-sub">密造の野花、シェリーの熟果、そして名門の薔薇——スペイサイドの芳醇な花園を三杯で巡る。</div>
-    <div class="set-toggle"><span class="chevron">▼</span> 詳しく見る</div>
     <div class="set-menu-detail">
       <div class="included">
-        <li>グレンリベット 12年 イリシットスティル（スペイサイド）</li>
+        <li>グレンリベット 12年（スペイサイド）</li>
         <li>アベラワー アブーナ（スペイサイド）</li>
         <li>マッカラン 12年（スペイサイド）</li>
       </div>
     </div>
   </div>
 
-  <div class="set-menu-card" onclick="toggleSet(this)">
-    <div class="set-menu-head">
-      <span class="set-menu-name">皇室御用達のロイヤルスコッチキット</span>
-      <span class="set-menu-price">¥2,800</span>
-    </div>
-    <div class="set-menu-sub">王室が愛し、歴史が選んだ三つの蒸溜所——一杯ごとに格式が薫る、ロイヤルなひととき。</div>
-    <div class="set-toggle"><span class="chevron">▼</span> 詳しく見る</div>
-    <div class="set-menu-detail">
-      <div class="included">
-        <li>ロイヤルブックラ 12年（ハイランド）</li>
-        <li>ダルウィニー 15年（ハイランド）</li>
-        <li>オーバン 14年（ハイランド）</li>
-      </div>
-    </div>
-  </div>
-
-  <div class="set-menu-card" onclick="toggleSet(this)">
+  <div class="set-menu-card">
     <div class="set-menu-head">
       <span class="set-menu-name">大地の自然を感じるキット</span>
-      <span class="set-menu-price">¥3,200</span>
+      <span class="set-menu-price">¥3,200<span class="tax-label">（Tax-in）</span></span>
     </div>
     <div class="set-menu-sub">獣が駆ける森、ヘザーが咲く丘、潮に濡れた湿地——三種のピートが語るスコットランドの地層。</div>
-    <div class="set-toggle"><span class="chevron">▼</span> 詳しく見る</div>
     <div class="set-menu-detail">
       <div class="included">
         <li>モートラック 12年（スペイサイド）</li>
@@ -858,170 +828,6 @@ button{border:none;background:none;cursor:pointer;font:inherit;color:inherit}
   </div>
 
   <!-- プレミアム -->
-  <div class="price-band-title">— プレミアム —</div>
-
-  <div class="set-menu-card" onclick="toggleSet(this)">
-    <div class="set-menu-head">
-      <span class="set-menu-name">長期熟成プレミアムキット</span>
-      <span class="set-menu-price">¥4,000</span>
-    </div>
-    <div class="set-menu-sub">17年、18年、21年——樽の中で静かに眠り続けた歳月の深みを、三杯で味わう贅沢。</div>
-    <div class="set-toggle"><span class="chevron">▼</span> 詳しく見る</div>
-    <div class="set-menu-detail">
-      <div class="included">
-        <li>バランタイン 17年 トリビュートリリース（ブレンデッド）</li>
-        <li>ハイランドパーク 18年（オークニー諸島）</li>
-        <li>デュワーズ ダブルダブル 21年（ブレンデッド）</li>
-      </div>
-    </div>
-  </div>
-
-  <!-- 飲み比べ -->
-  <div class="price-band-title">— 飲み比べ —</div>
-
-  <div class="set-menu-card" onclick="toggleSet(this)">
-    <div class="set-menu-head">
-      <span class="set-menu-name">ラガヴーリン 飲み比べ</span>
-      <span class="set-menu-price">¥1,600</span>
-    </div>
-    <div class="set-menu-sub">8年の瑞々しい炎と、16年の深淵なる煙——同じ釜から生まれた二つの時間を並べて。</div>
-    <div class="set-toggle"><span class="chevron">▼</span> 詳しく見る</div>
-    <div class="set-menu-detail">
-      <div class="included">
-        <li>ラガヴーリン 8年（アイラ島）</li>
-        <li>ラガヴーリン 16年（アイラ島）</li>
-      </div>
-    </div>
-  </div>
-
-  <div class="set-menu-card" onclick="toggleSet(this)">
-    <div class="set-menu-head">
-      <span class="set-menu-name">シーバスリーガル ミズナラ 飲み比べ</span>
-      <span class="set-menu-price">¥1,600</span>
-    </div>
-    <div class="set-menu-sub">日本の森が育てたミズナラ樽、12年と18年——6年の歳月が加える奥行きを舌で確かめる。</div>
-    <div class="set-toggle"><span class="chevron">▼</span> 詳しく見る</div>
-    <div class="set-menu-detail">
-      <div class="included">
-        <li>シーバスリーガル ミズナラ 12年（ブレンデッド）</li>
-        <li>シーバスリーガル 18年 ミズナラ（ブレンデッド）</li>
-      </div>
-    </div>
-  </div>
-
-  <div class="set-menu-card" onclick="toggleSet(this)">
-    <div class="set-menu-head">
-      <span class="set-menu-name">デュワーズ 飲み比べ</span>
-      <span class="set-menu-price">¥1,600</span>
-    </div>
-    <div class="set-menu-sub">始まりのホワイトラベルと、到達点の21年——デュワーズの全貌を二杯で知る。</div>
-    <div class="set-toggle"><span class="chevron">▼</span> 詳しく見る</div>
-    <div class="set-menu-detail">
-      <div class="included">
-        <li>デュワーズ ホワイトラベル（ブレンデッド）</li>
-        <li>デュワーズ ダブルダブル 21年（ブレンデッド）</li>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     SPECIAL / HIGHBALL / ROCKS
-     ============================================================ -->
-<section class="section fade-in" id="sec-special">
-  <div class="section-head">
-    <div class="section-en">Special</div>
-    <div class="section-jp">スペシャル・おすすめ</div>
-    <div class="section-line"></div>
-  </div>
-
-  <!-- スペシャルメニュー -->
-  <div class="system-card" style="border-color:rgba(212,197,169,.2);margin-bottom:28px;">
-    <div style="font-size:.72rem;letter-spacing:.25em;color:#a59a8d;margin-bottom:6px;">魔界への誘い</div>
-    <div style="font-size:1.05rem;font-weight:500;color:#e8e0d4;margin-bottom:4px;">タリスカー スパイシーハイボール</div>
-    <div style="font-size:.85rem;color:#b0a895;margin-bottom:10px;">（ブラックペッパー）</div>
-    <div style="font-size:.85rem;color:#aea69a;line-height:1.9;margin-bottom:12px;">タリスカー10年のハイボールに黒胡椒を一振り。<br>黒胡椒の香りがスパイシーさを引き立て、うねる渦に飛び込め！魔界への片道切符。<br>黒胡椒のスパイシーさが食欲をかきたて、食中酒としても最適なハイボールになります。<br>柳屋特製のおにぎりと合わせて、お楽しみいただくのはいかがでしょうか...？</div>
-    <div style="font-family:'Noto Serif JP',serif;font-size:1.05rem;color:#d4c5a9;text-align:right;">¥800</div>
-  </div>
-
-  <!-- ハイボールおすすめ -->
-  <div class="food-group">
-    <div class="food-group-title">ハイボールおすすめ 8選 <span style="font-size:.72rem;color:#958a7d;font-weight:300;">30ml</span></div>
-    <div class="food-row"><span class="food-name">デュワーズ ホワイトラベル</span><span class="food-price">¥700</span></div>
-    <div class="food-row"><span class="food-name">シーバスリーガル ミズナラ 12年</span><span class="food-price">¥800</span></div>
-    <div class="food-row"><span class="food-name">グレンフィディック 12年</span><span class="food-price">¥800</span></div>
-    <div class="food-row"><span class="food-name">タリスカー 10年</span><span class="food-price">¥800</span></div>
-    <div class="food-row"><span class="food-name">アードベッグ 10年</span><span class="food-price">¥1,000</span></div>
-    <div class="food-row"><span class="food-name">ラガヴーリン 8年</span><span class="food-price">¥900</span></div>
-    <div class="food-row"><span class="food-name">バランタイン 17年</span><span class="food-price">¥1,000</span></div>
-    <div class="food-row"><span class="food-name">ブナハーブン 12年</span><span class="food-price">¥1,200</span></div>
-  </div>
-
-  <!-- ロックおすすめ -->
-  <div class="food-group">
-    <div class="food-group-title">ロックおすすめ 8選 <span style="font-size:.72rem;color:#958a7d;font-weight:300;">30ml</span></div>
-    <div class="food-row"><span class="food-name">ラガヴーリン 16年</span><span class="food-price">¥1,300</span></div>
-    <div class="food-row"><span class="food-name">シーバスリーガル 18年 ミズナラ</span><span class="food-price">¥1,500</span></div>
-    <div class="food-row"><span class="food-name">アベラワー アブーナ</span><span class="food-price">¥1,500</span></div>
-    <div class="food-row"><span class="food-name">ボウモア 15年</span><span class="food-price">¥1,700</span></div>
-    <div class="food-row"><span class="food-name">マッカラン 12年</span><span class="food-price">¥1,800</span></div>
-    <div class="food-row"><span class="food-name">ハイランドパーク 18年</span><span class="food-price">¥1,900</span></div>
-    <div class="food-row"><span class="food-name">ラフロイグ ロア</span><span class="food-price">¥1,900</span></div>
-    <div class="food-row"><span class="food-name">デュワーズ ダブルダブル 21年</span><span class="food-price">¥2,100</span></div>
-  </div>
-</section>
-
-<!-- ============================================================
-     FOOD
-     ============================================================ -->
-<section class="section fade-in" id="sec-food">
-  <div class="section-head">
-    <div class="section-en">Food</div>
-    <div class="section-jp">フード</div>
-    <div class="section-line"></div>
-  </div>
-
-  <div class="food-group">
-    <div class="food-group-title">おつまみ</div>
-    <div class="food-row"><span class="food-name">チーズ</span><span class="food-price">¥300</span></div>
-    <div class="food-row"><span class="food-name">ミックスナッツ</span><span class="food-price">¥300</span></div>
-    <div class="food-row"><span class="food-name">ジャイアントコーン</span><span class="food-price">¥300</span></div>
-    <div class="food-row"><span class="food-name">ダークチョコレート</span><span class="food-price">¥300</span></div>
-  </div>
-
-  <div class="food-group" style="background:rgba(212,197,169,.06);border:1px solid rgba(212,197,169,.12);border-radius:14px;padding:20px 20px 12px;margin-top:8px;">
-    <div style="text-align:center;margin-bottom:14px;">
-      <div style="font-size:.65rem;letter-spacing:.3em;color:#c4b694;margin-bottom:4px;">— YANAGIYA SPECIAL —</div>
-      <div style="font-size:1.1rem;font-weight:600;color:#e8e0d4;letter-spacing:.08em;">🍙 柳屋特製おにぎり</div>
-      <div style="font-size:.75rem;color:#c4b694;margin-top:2px;letter-spacing:.1em;">ちょうどいいサイズ</div>
-    </div>
-    <div style="font-size:.82rem;color:#d4c5a9;margin-bottom:14px;line-height:1.8;text-align:center;font-weight:400;">本当においしい。お腹いっぱいでもおすすめ！<br><span style="font-size:.72rem;color:#b0a895;">木崎湖畔のお米使用</span></div>
-    <div class="food-row"><span class="food-name">ツナマヨ</span><span class="food-price">¥200</span></div>
-    <div class="food-row"><span class="food-name">梅</span><span class="food-price">¥200</span></div>
-    <div class="food-row"><span class="food-name">塩むすび</span><span class="food-price">¥200</span></div>
-  </div>
-</section>
-
-<!-- ============================================================
-     NON-ALCOHOL
-     ============================================================ -->
-<section class="section fade-in" id="sec-nonalc">
-  <div class="section-head">
-    <div class="section-en">Non-Alcohol</div>
-    <div class="section-jp">ノンアルコール</div>
-    <div class="section-line"></div>
-  </div>
-
-  <div class="food-group">
-    <div class="food-row"><span class="food-name">オーガニックインディア<br>トゥルシーオリジナル</span><span class="food-price">¥400</span></div>
-    <div style="font-size:.72rem;color:#958a7d;margin-top:2px;margin-bottom:12px;">インド　あたたかい</div>
-
-    <div class="food-row"><span class="food-name">仁科の里のえんめい茶</span><span class="food-price">¥400</span></div>
-    <div style="font-size:.72rem;color:#958a7d;margin-top:2px;margin-bottom:12px;">長野　あたたかい</div>
-
-    <div class="food-row"><span class="food-name">ウーロン茶</span><span class="food-price">¥400</span></div>
-    <div style="font-size:.72rem;color:#958a7d;margin-top:2px;">つめたい</div>
-  </div>
 </section>
 
 <!-- ============================================================
@@ -1042,6 +848,7 @@ button{border:none;background:none;cursor:pointer;font:inherit;color:inherit}
     <div class="modal-handle"></div>
     <div class="modal-name" id="mName"></div>
     <div class="modal-price" id="mPrice"></div>
+    <div class="modal-tags" id="mTags"></div>
     <div class="modal-meta" id="mMeta"></div>
     <div class="modal-color-row" id="mColorRow">
       <span class="modal-color-dot" id="mColorDot"></span>
@@ -1207,7 +1014,7 @@ const W = {
     desc:'1881年、アイラ島の最北端で創業。アイラモルトとしては珍しくピートをほとんど使用しない「アイラの異端児」。冷却ろ過や着色を排し、自然のままの姿で瓶詰めされる12年熟成は、シェリー樽とバーボン樽の原酒が織りなすブナハーブンの真髄。'
   },
   'royalbrackla12': {
-    name:'ロイヤルブックラ 12年', price:'¥1,100（税込）',
+    name:'ロイヤルブラックラ 12年', price:'¥1,100（税込）',
     type:'シングルモルト', region:'ハイランド',
     color:'ルビーがかった琥珀色', colorHex:'#9a5030',
     aroma:'ライチ、ブラックチェリー、スパイス、チョコレート',
@@ -1328,8 +1135,12 @@ const W = {
 /* ---------- MODAL ---------- */
 function openModal(id){
   const d = W[id]; if(!d) return;
+  const itemEl = event && event.currentTarget;
+  const tagEls = itemEl ? itemEl.querySelectorAll('.tag') : [];
+  const tagsHTML = Array.from(tagEls).map(t=>'<span class="tag '+[...t.classList].filter(c=>c!=='tag').join(' ')+'">'+t.textContent+'</span>').join('');
+  document.getElementById('mTags').innerHTML = tagsHTML;
   document.getElementById('mName').textContent = d.name;
-  document.getElementById('mPrice').textContent = d.price;
+  document.getElementById('mPrice').innerHTML = d.price.replace('（税込）', '<span class="tax-label">（Tax-in）</span>');
   document.getElementById('mMeta').innerHTML =
     '<span class="modal-meta-chip">'+d.type+'</span>'+
     '<span class="modal-meta-chip">'+d.region+'</span>';
@@ -1392,14 +1203,6 @@ function forceCloseModal(){
   });
 })();
 
-/* ---------- SET MENU TOGGLE ---------- */
-function toggleSet(card){
-  const detail = card.querySelector('.set-menu-detail');
-  const isOpen = detail.classList.contains('open');
-  detail.classList.toggle('open');
-  card.classList.toggle('expanded');
-}
-
 /* ---------- NAV TABS ---------- */
 document.querySelectorAll('.nav-tab').forEach(tab => {
   tab.addEventListener('click', () => {
@@ -1415,13 +1218,14 @@ document.querySelectorAll('.nav-tab').forEach(tab => {
 });
 
 /* ---------- SCROLL SPY ---------- */
-const sections = document.querySelectorAll('.section[id]');
+const sections = document.querySelectorAll('.section[id], .price-band[id]');
 const navTabs = document.querySelectorAll('.nav-tab');
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if(entry.isIntersecting){
       navTabs.forEach(t => t.classList.remove('active'));
-      const active = document.querySelector('.nav-tab[data-target="'+entry.target.id+'"]');
+      const id = entry.target.id;
+      let active = document.querySelector('.nav-tab[data-target="'+id+'"]');
       if(active){
         active.classList.add('active');
         active.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
@@ -1430,6 +1234,19 @@ const observer = new IntersectionObserver(entries => {
   });
 }, {rootMargin:'-40% 0px -55% 0px'});
 sections.forEach(s => observer.observe(s));
+
+/* ---------- FLAVOR TAG COLORS ---------- */
+(function(){
+  const map = {
+    'スモーキー':'f-smoky','ピーティ':'f-peaty','フルーティ':'f-fruity',
+    '華やか':'f-floral','ハイボール向き':'f-highball',
+    'リッチ':'f-rich','シェリー':'f-sherry','スパイシー':'f-spicy'
+  };
+  document.querySelectorAll('.whisky-name .tag').forEach(el => {
+    const t = el.textContent.trim();
+    if(map[t]) el.classList.add(map[t]);
+  });
+})();
 
 /* ---------- FADE IN ---------- */
 const fadeObserver = new IntersectionObserver(entries => {
