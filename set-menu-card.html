@@ -19,22 +19,34 @@
     }
     .card-bottles .card-bottle:first-child { padding-left: 0; }
     .card-bottles .card-bottle:last-child  { padding-right: 0; border-right: none; }
-    .card-bottles .card-bottle-header { align-items: flex-start; flex-wrap: wrap; }
-    .card-bottles .card-bottle-name   { font-size: 9pt; display: block; line-height: 1.3; }
-    .card-bottles .card-bottle-region { font-size: 7pt; margin-left: 0; display: block; margin-top: 0.5mm; }
+    .card-bottles .card-bottle-header { align-items: flex-start; flex-wrap: wrap; gap: 0; }
+    .card-bottles .card-bottle-num   { flex-shrink: 0; }
+    .card-bottles .card-bottle-name  { font-size: 10pt; display: block; line-height: 1.3; width: 100%; margin-top: 1.5mm; }
+    .card-bottles .card-bottle-region { font-size: 7.5pt; margin-left: 0; display: block; margin-top: 0.8mm; color: #888; }
 
     /* ─── Tasting notes ─── */
-    .card-tasting { margin-top: 2.5mm; }
-    .card-tasting-row { display: flex; gap: 1.5mm; margin-bottom: 1mm; line-height: 1.45; }
+    .card-tasting { margin-top: 2mm; }
+    .card-tasting-row { display: flex; gap: 1.5mm; margin-bottom: 0.8mm; line-height: 1.45; }
     .card-tasting-label {
-      font-size: 6.5pt;
+      font-size: 7pt;
       color: #bbb;
       font-weight: 700;
       flex-shrink: 0;
       width: 4mm;
       padding-top: 0.5px;
     }
-    .card-tasting-val { font-size: 7.5pt; color: #555; font-weight: 300; }
+    .card-tasting-val { font-size: 8pt; color: #555; font-weight: 300; }
+
+    /* ─── Bottle summary text ─── */
+    .card-bottle-summary {
+      font-size: 7.5pt;
+      color: #777;
+      line-height: 1.55;
+      margin-top: 2mm;
+      font-weight: 300;
+      border-top: 0.5px solid #ececec;
+      padding-top: 1.5mm;
+    }
   </style>
 </head>
 <body>
@@ -67,6 +79,7 @@
           <div class="card-tasting-row"><span class="card-tasting-label">味</span><span class="card-tasting-val">青リンゴ、はちみつ、クリーム</span></div>
           <div class="card-tasting-row"><span class="card-tasting-label">韻</span><span class="card-tasting-val">すっきりと軽やかに消える</span></div>
         </div>
+        <div class="card-bottle-summary">1887年創業、同じ水源の湧き水を守り続ける「シングルモルトのパイオニア」。世界で最も受賞歴を誇る、果実味豊かなスペイサイドの定番。</div>
       </div>
       <div class="card-bottle">
         <div class="card-bottle-header">
@@ -80,6 +93,7 @@
           <div class="card-tasting-row"><span class="card-tasting-label">味</span><span class="card-tasting-val">爆発的スモーク、ダークチョコ</span></div>
           <div class="card-tasting-row"><span class="card-tasting-label">韻</span><span class="card-tasting-val">長く続くスモークとスパイス</span></div>
         </div>
+        <div class="card-bottle-summary">業界最高水準50〜60ppmのピート含有量を誇るアイラの至宝。2008年ワールド・ウイスキー・オブ・ザ・イヤー受賞。圧倒的な個性と複雑さで世界中から崇められる。</div>
       </div>
       <div class="card-bottle">
         <div class="card-bottle-header">
@@ -93,6 +107,7 @@
           <div class="card-tasting-row"><span class="card-tasting-label">味</span><span class="card-tasting-val">はちみつ、スパイス、薄いスモーク</span></div>
           <div class="card-tasting-row"><span class="card-tasting-label">韻</span><span class="card-tasting-val">長く暖かく続く</span></div>
         </div>
+        <div class="card-bottle-summary">ヴァイキングの末裔によりオークニーに設立された最北の蒸溜所。220年の伝統が生む、ヘザーハニーとピートスモークが完璧に調和した18年熟成の傑作。</div>
       </div>
     </div>
   </div>
@@ -120,6 +135,7 @@
           <div class="card-tasting-row"><span class="card-tasting-label">味</span><span class="card-tasting-val">気品ある甘み、トフィー、シトラス</span></div>
           <div class="card-tasting-row"><span class="card-tasting-label">韻</span><span class="card-tasting-val">甘く上品な余韻</span></div>
         </div>
+        <div class="card-bottle-summary">1833年にウィリアム4世から英国初の王室御用達認定を受けた由緒ある蒸溜所。バーボン樽熟成後にオロロソシェリー樽でフィニッシュした、王室の気品漂う貴族的な一本。</div>
       </div>
       <div class="card-bottle">
         <div class="card-bottle-header">
@@ -133,6 +149,7 @@
           <div class="card-tasting-row"><span class="card-tasting-label">味</span><span class="card-tasting-val">滑らかで軽快、ジンジャー</span></div>
           <div class="card-tasting-row"><span class="card-tasting-label">韻</span><span class="card-tasting-val">クリーンで爽やか</span></div>
         </div>
+        <div class="card-bottle-summary">伝統的な3回蒸溜で造られるローランドの傑作。バーボン樽とシェリー樽で熟成された、都会的で洗練された極上の軽やかさ。</div>
       </div>
       <div class="card-bottle">
         <div class="card-bottle-header">
@@ -146,6 +163,7 @@
           <div class="card-tasting-row"><span class="card-tasting-label">味</span><span class="card-tasting-val">力強いピート、海塩、チョコ</span></div>
           <div class="card-tasting-row"><span class="card-tasting-label">韻</span><span class="card-tasting-val">力強く長く続く</span></div>
         </div>
+        <div class="card-bottle-summary">スプリングバンク蒸溜所が造る50-55ppmのヘビーピートモルト。甘いスモークと潮風が絶妙に絡み合う、キャンベルタウンの力強い個性の一本。</div>
       </div>
     </div>
     <div class="card-footnote">※ 旅程A＋Bでスコットランド多地方を制覇！</div>
@@ -181,6 +199,7 @@
           <div class="card-tasting-row"><span class="card-tasting-label">味</span><span class="card-tasting-val">濃厚スモーク、甘いシェリー</span></div>
           <div class="card-tasting-row"><span class="card-tasting-label">韻</span><span class="card-tasting-val">非常に長く豊かに続く</span></div>
         </div>
+        <div class="card-bottle-summary">アイラの巨人と称される16年長期熟成の傑作。ホワイトホース社が修業した伝説の蒸溜所が生む、深みとスモーキーさの極致として世界中から崇拝される。</div>
       </div>
       <div class="card-bottle">
         <div class="card-bottle-header">
@@ -194,6 +213,7 @@
           <div class="card-tasting-row"><span class="card-tasting-label">味</span><span class="card-tasting-val">爆発的スモーク、ダークチョコ</span></div>
           <div class="card-tasting-row"><span class="card-tasting-label">韻</span><span class="card-tasting-val">長く続くスモークとスパイス</span></div>
         </div>
+        <div class="card-bottle-summary">業界最高水準50〜60ppmのピート含有量を誇るアイラの至宝。2008年ワールド・ウイスキー・オブ・ザ・イヤー受賞の圧倒的な個性。</div>
       </div>
       <div class="card-bottle">
         <div class="card-bottle-header">
@@ -207,6 +227,7 @@
           <div class="card-tasting-row"><span class="card-tasting-label">味</span><span class="card-tasting-val">スモーク、シェリーの甘み、潮気</span></div>
           <div class="card-tasting-row"><span class="card-tasting-label">韻</span><span class="card-tasting-val">温かみのある長い後味</span></div>
         </div>
+        <div class="card-bottle-summary">アイラモルトの女王。バーボン樽12年後、オロロソシェリー樽で3年後熟。潮の香りとスモーキーさが甘美に調和した至高の逸品。</div>
       </div>
     </div>
   </div>
@@ -234,6 +255,7 @@
           <div class="card-tasting-row"><span class="card-tasting-label">味</span><span class="card-tasting-val">なめらかで甘い、洋梨、アニス</span></div>
           <div class="card-tasting-row"><span class="card-tasting-label">韻</span><span class="card-tasting-val">フルーティで爽やか</span></div>
         </div>
+        <div class="card-bottle-summary">1824年スコットランド初の政府公認蒸溜所。密造時代のオリジナルレシピを再現した「イリシットスティル」は、清らかな湧き水が生む华やかなフルーツ香の傑作。</div>
       </div>
       <div class="card-bottle">
         <div class="card-bottle-header">
@@ -247,6 +269,7 @@
           <div class="card-tasting-row"><span class="card-tasting-label">味</span><span class="card-tasting-val">濃厚シェリー、カシス、スパイス</span></div>
           <div class="card-tasting-row"><span class="card-tasting-label">韻</span><span class="card-tasting-val">長く深い果実とスパイス</span></div>
         </div>
+        <div class="card-bottle-summary">「アブーナ」はゲール語で父の意。スペイン産オロロソシェリー樽のみで熟成したカスクストレングス。創業当時のハンドメイド製法を守る蒸溜所の魂の一本。</div>
       </div>
       <div class="card-bottle">
         <div class="card-bottle-header">
@@ -260,6 +283,7 @@
           <div class="card-tasting-row"><span class="card-tasting-label">味</span><span class="card-tasting-val">甘いシェリー、スパイス、ドライフルーツ</span></div>
           <div class="card-tasting-row"><span class="card-tasting-label">韻</span><span class="card-tasting-val">柔らかく温かな後味</span></div>
         </div>
+        <div class="card-bottle-summary">1824年創業、スペイサイドの名門。シェリー樽とアメリカンオーク樽の2種で熟成。優美なボトルフォルムも高貴さを体現する、初心者から上級者まで魅了するエレガントな一本。</div>
       </div>
     </div>
   </div>
@@ -294,6 +318,7 @@
           <div class="card-tasting-row"><span class="card-tasting-label">味</span><span class="card-tasting-val">力強い、スパイス、チョコ、干し葡萄</span></div>
           <div class="card-tasting-row"><span class="card-tasting-label">韻</span><span class="card-tasting-val">力強く長い余韻</span></div>
         </div>
+        <div class="card-bottle-summary">「ダフタウンの野獣」。「2.81回蒸留」という独自の複雑な工程が生む、スペイサイドで最も力強く肉感的な唯一無二の重厚な味わい。</div>
       </div>
       <div class="card-bottle">
         <div class="card-bottle-header">
@@ -307,6 +332,7 @@
           <div class="card-tasting-row"><span class="card-tasting-label">味</span><span class="card-tasting-val">はちみつ、スパイス、薄いスモーク</span></div>
           <div class="card-tasting-row"><span class="card-tasting-label">韻</span><span class="card-tasting-val">長く暖かく続く</span></div>
         </div>
+        <div class="card-bottle-summary">オークニーに自生するヒースが数千年かけて炭化したヘザーピート使用。220年の伝統が生む、花のように甘い煙と果実味の完璧な調和。</div>
       </div>
       <div class="card-bottle">
         <div class="card-bottle-header">
@@ -320,6 +346,7 @@
           <div class="card-tasting-row"><span class="card-tasting-label">味</span><span class="card-tasting-val">スモーク、シェリーの甘み、潮気</span></div>
           <div class="card-tasting-row"><span class="card-tasting-label">韻</span><span class="card-tasting-val">温かみのある長い後味</span></div>
         </div>
+        <div class="card-bottle-summary">海風に晒されたアイラの泥炭由来の塩気あるスモーク。バーボン樽12年後にシェリー樽で後熟した甘美さと潮の香りが見事に調和。</div>
       </div>
     </div>
   </div>
