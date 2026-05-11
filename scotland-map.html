@@ -422,8 +422,8 @@ html,body{
 const CITIES = [
   { n:'Edinburgh', lat:55.953, lon:-3.188 },
   { n:'Glasgow',   lat:55.862, lon:-4.258 },
-  { n:'Inverness', lat:57.478, lon:-4.224 },
-  { n:'Aberdeen',  lat:57.150, lon:-2.094 },
+  { n:'Inverness', lat:57.478, lon:-4.224, overridePx:600.569, overridePy:275.845 },
+  { n:'Aberdeen',  lat:57.150, lon:-2.094, overridePx:878.716, overridePy:374.931 },
 ];
 
 /*
@@ -478,7 +478,7 @@ const D = [
   { n:'オーバン 14年', e:'Oban 14yr', p:'¥1,200',
     lat:56.415, lon:-5.172, c:'#b07020', d:'left' },
   { n:'グレンドロナック 12年', e:'GlenDronach 12yr', p:'¥800',
-    lat:57.437, lon:-2.830, c:'#b07020', d:'right' },
+    lat:57.437, lon:-2.830, c:'#b07020', d:'bottom' },
   { n:'ロイヤルブラックラ 12年', e:'Royal Brackla 12yr', p:'¥1,100',
     lat:57.510, lon:-3.750, c:'#b07020', d:'topleft' },
   // ISLAY
@@ -579,8 +579,8 @@ function render() {
   // Cities
   CITIES.forEach(c => {
     const pct = geo(c.lat, c.lon);
-    const cx = iL + (pct.x / 100) * iW;
-    const cy = iT + (pct.y / 100) * iH;
+    const cx = c.overridePx !== undefined ? c.overridePx : (iL + (pct.x / 100) * iW);
+    const cy = c.overridePy !== undefined ? c.overridePy : (iT + (pct.y / 100) * iH);
 
     // dot
     const dot = document.createElement('div');
