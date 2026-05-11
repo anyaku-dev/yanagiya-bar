@@ -465,7 +465,7 @@ const D = [
   { n:'グレンフィディック 12年', e:'Glenfiddich 12yr', p:'¥700',
     lat:57.454, lon:-3.128, c:'#4a7a30', d:'topright' },
   { n:'モートラック 12年', e:'Mortlach 12yr', p:'¥1,000',
-    lat:57.446, lon:-3.121, c:'#4a7a30', d:'bottomright' },
+    lat:57.446, lon:-3.121, c:'#4a7a30', d:'bottomright', offDx:163, offDy:39, offAx:'left' },
   { n:'マッカラン 12年', e:'Macallan 12yr', p:'¥1,700',
     lat:57.485, lon:-3.205, c:'#4a7a30', d:'top' },
   { n:'アベラワー アブーナ', e:"Aberlour A'bunadh", p:'¥1,400',
@@ -504,7 +504,7 @@ const D = [
     lat:56.382, lon:-2.906, c:'#6a4a90', d:'right' },
   // CAMPBELTOWN
   { n:'スプリングバンク 10年 / ロングロウ', e:'Springbank 10yr ¥3,200 / Longrow ¥1,700', p:'',
-    lat:55.426, lon:-5.597, c:'#9a6010', d:'bottomleft' },
+    lat:55.426, lon:-5.597, c:'#9a6010', d:'bottom', offDx:0, offDy:83, offAx:'center' },
 ];
 
 function render() {
@@ -547,7 +547,9 @@ function render() {
       transform:translate(-50%,-50%);z-index:15;`;
     layer.appendChild(dot);
 
-    const off = offs[d.d] || offs.right;
+    const off = d.offDx !== undefined
+      ? { dx:d.offDx, dy:d.offDy, ax:d.offAx }
+      : (offs[d.d] || offs.right);
     const lx = px + off.dx;
     const ly = py + off.dy;
 
