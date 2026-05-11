@@ -33,6 +33,15 @@ html,body{
   content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
   background:radial-gradient(ellipse at center,transparent 55%,rgba(60,40,15,.2) 100%);
 }
+/* edge fade to white */
+.edge-fade{
+  position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:
+    linear-gradient(to bottom, white 0%, white 2%, rgba(255,255,255,0) 14%),
+    linear-gradient(to top,    white 0%, white 2%, rgba(255,255,255,0) 14%),
+    linear-gradient(to right,  white 0%, white 2%, rgba(255,255,255,0) 10%),
+    linear-gradient(to left,   white 0%, white 2%, rgba(255,255,255,0) 10%);
+}
 /* borders — double line old map style */
 .bdr-o{position:absolute;inset:5mm;border:2.5px solid #5a4228;z-index:50;pointer-events:none}
 .bdr-i{position:absolute;inset:8mm;border:1px solid rgba(90,66,40,.4);z-index:50;pointer-events:none}
@@ -135,7 +144,7 @@ html,body{
 /* note — top-right to avoid compass overlap */
 .note-box{
   position:absolute;top:10mm;right:18mm;z-index:55;
-  margin-top:36mm;
+  margin-top:38mm;
   background:rgba(232,222,198,.92);border:1.5px solid rgba(90,66,40,.4);
   border-radius:3px;padding:4mm 5mm;max-width:70mm;
   box-shadow:0 2px 8px rgba(40,25,5,.1);
@@ -222,6 +231,7 @@ html,body{
 </head>
 <body>
 <div class="page">
+<div class="edge-fade"></div>
 
 <div class="bdr-o"></div><div class="bdr-i"></div>
 <div class="crn c-tl"><svg viewBox="0 0 80 80" fill="none"><path d="M2 78V2H78" stroke="#5a4228" stroke-width="2.5"/><path d="M12 66V12H66" stroke="#5a4228" stroke-width=".5" opacity=".3"/><circle cx="2" cy="2" r="3.5" fill="#5a4228" opacity=".5"/><path d="M2 2C14 6 26 4 38 2" stroke="#5a4228" stroke-width=".7" opacity=".3"/><path d="M2 2C6 14 4 26 2 38" stroke="#5a4228" stroke-width=".7" opacity=".3"/></svg></div>
